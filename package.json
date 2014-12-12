@@ -1,0 +1,26 @@
+{
+  "name": "diyvod",
+  "version": "1.0.0",
+  "description": "Check for shows and download them.",
+  "repository": "https://github.com/gregorl/diyvod.git",
+  "keywords": [],
+  "private": "true",
+  "bin": {
+    "diyvod": "./bin/diyvod"
+  },
+  "author": "Grzegorz Lachowski",
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "moment": "^2.8.4",
+    "node-trakt": "0.0.2",
+    "q": "^1.1.2",
+    "q-io": "^1.11.6",
+    "transmission": "^0.4.1"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
