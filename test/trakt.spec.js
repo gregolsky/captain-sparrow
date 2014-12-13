@@ -1,16 +1,15 @@
 describe('Trakt client', function() {
 
-  var TraktClient = require('../lib/shows/trakt');
+  var TraktClient = require('../lib/tv/trakt');
 
   var API_KEY = '1c1079c847bbf1df4fcbf794d9324959';
 
-  it('should get premieres for date and timespan given in days', function (done) {
+  xit('should get shows\' episodes from date for timespan given in days', function (done) {
 
     var client = new TraktClient(API_KEY);
 
     client.userCalendarShows('gregorl', new Date(2014, 11, 12), 1)
       .done(function (data) {
-        console.log(JSON.stringify(data, null, 2));
 
         expect(data).toBeDefined();
         expect(data).not.toBeNull();
