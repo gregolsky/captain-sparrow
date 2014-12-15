@@ -2,7 +2,7 @@ describe('Kickass torrents client', function () {
 
   var Kickass = require('../lib/torrents/kickass.js');
 
-  it('finds some torrents, when asked for linux', function (done) {
+  xit('finds some torrents, when asked for linux', function (done) {
 
     var kickass = new Kickass();
     kickass.search('linux')

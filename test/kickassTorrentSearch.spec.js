@@ -13,7 +13,6 @@ describe('Kickass torrent search', function () {
 
     var entry = results[0];
 
-    console.log(entry);
     expect(entry).toBeDefined();
     expect(entry.seeds).toBeDefined();
     expect(entry.leechs).toBeDefined();
@@ -21,8 +20,6 @@ describe('Kickass torrent search', function () {
     expect(entry.name).toBeDefined();
     expect(entry.createdAt).toBeDefined();
     expect(entry.link).toBeDefined();
-
-    
   });
 
   function getSampleJson() {
