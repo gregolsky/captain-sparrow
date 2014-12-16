@@ -1,22 +1,50 @@
-describe('Episodes filter', function () {
+describe('Episode filter', function () {
 
-  var EpisodesFilter = require('../lib/download/episodesFilter');
+  var EpisodeFilter = require('../lib/download/episodeFilter');
   var q = require('q');
   var moment = require('moment');
 
+  var createSettings = function (hoursAfterAirTime) {
+    return { hoursAfterAirTime: hoursAfterAirTime };
+  };
+
+  var createFakeWithContains = function (result) {
+    return {
+      contains: function () { 
+        var deferred = q.defer();
+
+        setTimeout(function () { 
+          deferred.resolve(result);
+        }, 10);
+
+        return deferred.promise; 
+      }
+    };
+  };
+
+
+  var date;
+  var episodeData;
+  var fakeDateService;
+  beforeEach(function () {
+    date = new Date();
+    episodeData = {
+      airtime: date
+    };
+
+    fakeDateService = {
+      currentDate: function () { return date; }
+    };
+  });
+
+
   it('filters out episode, when library contains', function (done) {
 
-    var filter = new EpisodesFilter(
-      null,
-      null, 
-      {
-        contains: function () { 
-          return q.when(true); 
-        }
-      }, 
-      null);
-
-      var episodeData = {};
+    var filter = new EpisodeFilter(
+      createSettings(0),
+      createFakeWithContains(false), 
+      createFakeWithContains(true), 
+      fakeDateService);
 
       filter.filter(episodeData)
       .then(function (result) {
@@ -28,21 +56,11 @@ describe('Episodes filter', function () {
   });
 
   it('filters out episode, when download queue contains', function (done) {
-    var filter = new EpisodesFilter(
-      null,
-      {
-        contains: function () { 
-          return q.when(true); 
-        }
-      }, 
-      {
-        contains: function () { 
-          return q.when(false); 
-        }
-      }, 
-      null);
-
-      var episodeData = {};
+    var filter = new EpisodeFilter(
+      createSettings(0),
+      createFakeWithContains(true), 
+      createFakeWithContains(false), 
+      fakeDateService);
 
       filter.filter(episodeData)
       .then(function (result) {
@@ -53,48 +71,24 @@ describe('Episodes filter', function () {
   });
 
   it('filters out episode, when it is surely too early to download', function (done) {
-    var date = new Date();
-    var filter = new EpisodesFilter(
-      { hoursAfterAirTime: 1 } ,
-      {
-        contains: function () { 
-          return q.when(false); 
-        }
-      }, 
-      {
-        contains: function () { 
-          return q.when(false); 
-        }
-      }, 
-      {
-        currentDate: function () { return date; }
-      });
-
-      var episodeData = { airtime: date };
+    var filter = new EpisodeFilter(
+      createSettings(1),
+      createFakeWithContains(false), 
+      createFakeWithContains(false), 
+      fakeDateService);
 
       filter.filter(episodeData)
       .then(function (result) {
         expect(result).toBe(false);
         done();
-      })
-      .done();
-
+      });
   });
 
   it('does not filter episode out, when all is ok', function (done) {
-    var date = new Date();
-    var filter = new EpisodesFilter(
-      { hoursAfterAirTime: 1 } ,
-      {
-        contains: function () { 
-          return q.when(false); 
-        }
-      }, 
-      {
-        contains: function () { 
-          return q.when(false); 
-        }
-      }, 
+    var filter = new EpisodeFilter(
+      createSettings(1),
+      createFakeWithContains(false), 
+      createFakeWithContains(false), 
       {
         currentDate: function () { return moment(date).add(1, 'h').toDate(); }
       });
@@ -111,24 +105,29 @@ describe('Episodes filter', function () {
   });
 
   it('throws errors, when something goes wrong inside filtering methods', function (done) {
-    var filter = new EpisodesFilter(
-      null,
-      null, 
+    var filter = new EpisodeFilter(
+      createSettings(0),
+      createFakeWithContains(false), 
       {
         contains: function () { 
-          throw new Error('Surprise!');
+          var deferred = q.defer();
+
+          setTimeout(function () {
+            deferred.reject(new Error('Surprise!'));
+          }, 100);
+
+          return deferred.promise;
         }
       }, 
-      null);
+      fakeDateService);
 
       var episodeData = {};
 
-      try {
-        filter.filter(episodeData)
-          .done();
-      } catch (error) {
+      filter.filter(episodeData)
+      .catch(function (error) {
         expect(error.message).toBe('Surprise!');
         done();
-      }
+      });
+
   });
 });
