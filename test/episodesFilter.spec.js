@@ -1,6 +1,6 @@
 describe('Episode filter', function () {
 
-  var EpisodeFilter = require('../lib/download/episodeFilter');
+  var EpisodeFilter = require('../lib/tv/episodeFilter');
   var q = require('q');
   var moment = require('moment');
 
