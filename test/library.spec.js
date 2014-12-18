@@ -1,21 +1,46 @@
 describe('TV shows library', function () {
 
   var fs = require('q-io/fs');
-
-  it('test', function(done) {
-
-    function guard(path, stat) {
-      return stat.isFile() && fs.extension(path) == '.mp4';
+  var MockFs = require('q-io/fs-mock');
+  var mockFs = MockFs({
+    "root": {
+      "a": {
+        "b": {
+          "c.txt": "Content of a/b/c.txt",
+          "fun.stuff.s01e01.mkv": 'asdg'
+        },
+        "Most.stupid.show.ever.s04e02.hdtv.mkv": 'asdg'
+      }
     }
+  });
 
-    fs.listTree('/net/azazel/Pobrane', guard)
-      .then(function (files) {
-        console.log(files.join('\r\n'));
-        done();
-      });
+  var Episode = require('../lib/tv/episode');
 
-    
+  var TvShowsLibrary = require('../lib/library/library');
 
+  it('initializes library from directory', function(done) {
+
+    var library = new TvShowsLibrary({ libraryPath: "root/a" }, mockFs); 
+    library.initialize()
+    .then(function () {
+      expect(library.files.length).toBeDefined();
+      expect(library.files.length).toBe(2);
+      done();
+    });;
+  });
+
+  it('can check if episode is already in', function(done) {
+    //function Episode(show, number, season, title, airtime, runtime) {
+
+    var episode = new Episode('Most stupid show  ever', '02', '04', '', null, null);
+    var library = new TvShowsLibrary({ libraryPath: "root/a" }, mockFs); 
+
+    library.initialize()
+    .then(function () {
+      var episodeInLibrary = library.contains(episode);
+      expect(episodeInLibrary).toBe(true);
+      done();
+    });
   });
 
 });
