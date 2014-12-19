@@ -114,7 +114,7 @@ describe('Episode filter', function () {
 
           setTimeout(function () {
             deferred.reject(new Error('Surprise!'));
-          }, 100);
+          }, 10);
 
           return deferred.promise;
         }
