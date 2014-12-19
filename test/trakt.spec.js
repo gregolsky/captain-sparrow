@@ -4,6 +4,7 @@ describe('Trakt client', function() {
 
   var API_KEY = '1c1079c847bbf1df4fcbf794d9324959';
 
+  /* Integration test */
   xit('should get shows\' episodes from date for timespan given in days', function (done) {
 
     var client = new TraktClient(API_KEY);

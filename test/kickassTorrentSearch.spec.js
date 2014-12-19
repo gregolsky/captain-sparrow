@@ -19,7 +19,7 @@ describe('Kickass torrent search', function () {
     expect(entry.size).toBeDefined();
     expect(entry.name).toBeDefined();
     expect(entry.createdAt).toBeDefined();
-    expect(entry.link).toBeDefined();
+    expect(entry.torrentLink).toBeDefined();
   });
 
   function getSampleJson() {
