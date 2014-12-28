@@ -14,13 +14,13 @@ describe('TV shows library', function () {
     }
   });
 
-  var Episode = require('../lib/tv/episode');
+  var Episode = require('../lib/diyvod/tasks/tv/episode');
 
-  var TvShowsLibrary = require('../lib/library/library');
+  var TvShowsLibrary = require('../lib/diyvod/tasks/tv/library');
 
   it('initializes library from directory', function(done) {
 
-    var library = new TvShowsLibrary({ libraryPath: "root/a" }, mockFs); 
+    var library = new TvShowsLibrary({ tv: { libraryPath: "root/a" } }, mockFs); 
     library.initialize()
     .then(function () {
       expect(library.files.length).toBeDefined();
@@ -33,7 +33,7 @@ describe('TV shows library', function () {
     //function Episode(show, number, season, title, airtime, runtime) {
 
     var episode = new Episode('Most stupid show  ever', '02', '04', '', null, null);
-    var library = new TvShowsLibrary({ libraryPath: "root/a" }, mockFs); 
+    var library = new TvShowsLibrary({ tv: { libraryPath: "root/a" } }, mockFs); 
 
     library.initialize()
     .then(function () {

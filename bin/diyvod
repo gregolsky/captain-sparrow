@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+var cli = require('cli'),
+    Diyvod = require('../lib/diyvod');
+
+cli.parse();
+
+cli.main(function (args, options) {
+
+  new Diyvod(args, options).run().done();
+
+});

@@ -1,6 +1,6 @@
 describe('Kickass torrent search', function () {
 
-  var KickassTorrentSearch = require('../lib/torrents/kickassTorrentSearch');
+  var KickassTorrentSearch = require('../lib/diyvod/torrents/kickassTorrentSearch');
 
   it('maps kickass torrents json', function () {
 

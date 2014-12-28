@@ -1,6 +1,6 @@
 describe('Transmission daemon client', function () {
 
-  var TransmissionClient = require('../lib/download/transmission');
+  var TransmissionClient = require('../lib/diyvod/transmission');
 
   var settings = {
     transmission: {

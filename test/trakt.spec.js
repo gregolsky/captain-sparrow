@@ -1,6 +1,6 @@
 describe('Trakt client', function() {
 
-  var TraktClient = require('../lib/tv/trakt');
+  var TraktClient = require('../lib/diyvod/tasks/tv/trakt');
 
   var API_KEY = '1c1079c847bbf1df4fcbf794d9324959';
 

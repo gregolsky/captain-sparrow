@@ -1,11 +1,11 @@
 describe('Episode filter', function () {
 
-  var EpisodeFilter = require('../lib/tv/episodeFilter');
+  var EpisodeFilter = require('../lib/diyvod/tasks/tv/episodeFilter');
   var q = require('q');
   var moment = require('moment');
 
   var createSettings = function (hoursAfterAirTime) {
-    return { hoursAfterAirTime: hoursAfterAirTime };
+    return { tv: { hoursAfterAirTime: hoursAfterAirTime } };
   };
 
   var createFakeWithContains = function (result) {
