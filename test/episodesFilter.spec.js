@@ -8,7 +8,13 @@ describe('Episode filter', function () {
     return { tv: { hoursAfterAirTime: hoursAfterAirTime } };
   };
 
-  var createFakeWithContains = function (result) {
+  var createFakeWithContains = function (result, sync) {
+    if (sync) {
+      return {
+        contains: function () { return result; }
+      };
+    }
+
     return {
       contains: function () { 
         var deferred = q.defer();
@@ -43,7 +49,7 @@ describe('Episode filter', function () {
     var filter = new EpisodeFilter(
       createSettings(0),
       createFakeWithContains(false), 
-      createFakeWithContains(true), 
+      createFakeWithContains(true, true), 
       fakeDateService);
 
       filter.filter(episodeData)
@@ -59,7 +65,7 @@ describe('Episode filter', function () {
     var filter = new EpisodeFilter(
       createSettings(0),
       createFakeWithContains(true), 
-      createFakeWithContains(false), 
+      createFakeWithContains(false, true), 
       fakeDateService);
 
       filter.filter(episodeData)
@@ -74,7 +80,7 @@ describe('Episode filter', function () {
     var filter = new EpisodeFilter(
       createSettings(1),
       createFakeWithContains(false), 
-      createFakeWithContains(false), 
+      createFakeWithContains(false, true), 
       fakeDateService);
 
       filter.filter(episodeData)
@@ -88,7 +94,7 @@ describe('Episode filter', function () {
     var filter = new EpisodeFilter(
       createSettings(1),
       createFakeWithContains(false), 
-      createFakeWithContains(false), 
+      createFakeWithContains(false, true), 
       {
         currentDate: function () { return moment(date).add(1, 'h').toDate(); }
       });
@@ -107,7 +113,6 @@ describe('Episode filter', function () {
   it('throws errors, when something goes wrong inside filtering methods', function (done) {
     var filter = new EpisodeFilter(
       createSettings(0),
-      createFakeWithContains(false), 
       {
         contains: function () { 
           var deferred = q.defer();
@@ -119,6 +124,7 @@ describe('Episode filter', function () {
           return deferred.promise;
         }
       }, 
+      createFakeWithContains(false, true), 
       fakeDateService);
 
       var episodeData = {};
