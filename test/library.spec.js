@@ -14,9 +14,9 @@ describe('TV shows library', function () {
     }
   });
 
-  var Episode = require('../lib/diyvod/tasks/tv/episode');
+  var Episode = require('../lib/diyvod/tv/episode');
 
-  var TvShowsLibrary = require('../lib/diyvod/tasks/tv/library');
+  var TvShowsLibrary = require('../lib/diyvod/tv/library');
 
   it('initializes library from directory', function(done) {
 

@@ -1,6 +1,6 @@
 describe('Kickass torrents client', function () {
 
-  var Kickass = require('../lib/diyvod/torrents/kickass.js');
+  var Kickass = require('../lib/diyvod/torrentProvider/kickass.js');
 
   /* Integration test */
   xit('finds some torrents, when asked for linux', function (done) {

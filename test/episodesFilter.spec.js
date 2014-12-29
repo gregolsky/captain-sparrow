@@ -1,6 +1,6 @@
 describe('Episode filter', function () {
 
-  var EpisodeFilter = require('../lib/diyvod/tasks/tv/episodeFilter');
+  var EpisodeFilter = require('../lib/diyvod/tv/episodeFilter');
   var q = require('q');
   var moment = require('moment');
 
