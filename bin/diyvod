@@ -3,7 +3,9 @@
 var cli = require('cli'),
     Diyvod = require('../lib/diyvod');
 
-cli.parse();
+cli.parse({
+ since: [ 's', 'date from, which search for episodes starts', 'string']        
+});
 
 cli.main(function (args, options) {
 
