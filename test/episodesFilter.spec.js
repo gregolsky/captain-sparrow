@@ -124,7 +124,10 @@ describe('Episode filter', function () {
       var episodeData = {};
 
       filter.filter(episodeData)
-      .catch(function (error) {
+      .then(function (result) {
+        expect(result).not.toBeDefined();
+        done();
+      }, function (error) {
         expect(error.message).toBe('Surprise!');
         done();
       });
