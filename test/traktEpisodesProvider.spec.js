@@ -16,6 +16,7 @@ describe('Trakt episodes provider', function () {
     expect(episode.title).toBe('Resignation');
     expect(episode.number).toBe(2);
     expect(episode.season).toBe(4);
+    expect(episode.getEpisodeNumber()).toBeDefined();
   });
 
   function getJsonSample () {
