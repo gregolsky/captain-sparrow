@@ -18,6 +18,7 @@ describe('Trakt episodes provider', function () {
     expect(episode.season).toBe(4);
     expect(episode.getEpisodeNumber).toBeDefined();
     expect(episode.getEpisodeNumber()).toBe('S04E02');
+    expect(episode.describe()).toBe('Boardwalk Empire S04E02');
   });
 
   function getJsonSample () {

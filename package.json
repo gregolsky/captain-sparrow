@@ -8,6 +8,9 @@
   "bin": {
     "diyvod": "./bin/diyvod"
   },
+  "scripts": {
+    "test": "node_modules/jasmine-node/bin/jasmine-node --verbose --junitreport --noColor --captureExceptions test"
+  },
   "author": "Grzegorz Lachowski",
   "dependencies": {
     "cli": "^0.6.5",
