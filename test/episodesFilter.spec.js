@@ -39,7 +39,8 @@ describe('Episode filter', function () {
     };
 
     fakeDateService = {
-      currentDate: function () { return date; }
+      currentDate: function () { return date; },
+      currentDateTime: function () { return date; }
     };
   });
 
@@ -96,7 +97,7 @@ describe('Episode filter', function () {
       createFakeWithContains(false), 
       createFakeWithContains(false, true), 
       {
-        currentDate: function () { return moment(date).add(1, 'h').toDate(); }
+        currentDateTime: function () { return moment(date).add(1, 'h').toDate(); }
       });
 
       var episodeData = { airtime: date };
