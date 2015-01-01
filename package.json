@@ -14,6 +14,7 @@
   "author": "Grzegorz Lachowski",
   "dependencies": {
     "cli": "^0.6.5",
+    "colors": "^1.0.3",
     "expand-home-dir": "0.0.2",
     "lodash": "^2.4.1",
     "moment": "^2.8.4",
