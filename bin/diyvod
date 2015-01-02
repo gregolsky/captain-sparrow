@@ -4,7 +4,9 @@ var cli = require('cli'),
     Diyvod = require('../lib/diyvod');
 
 cli.parse({
- since: [ 's', 'date from, which search for episodes starts', 'string']        
+ since: [ 's', 'date from, which search for episodes starts', 'string'],
+ save: ['p', 'save torrent file under selected path', 'string'],
+ index: ['i', 'result index', 'number'],
 });
 
 cli.main(function (args, options) {
