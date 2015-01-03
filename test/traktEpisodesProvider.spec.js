@@ -1,6 +1,6 @@
 describe('Trakt episodes provider', function () {
 
-  var TraktEpisodesProvider = require('../lib/diyvod/tv/traktEpisodesProvider');
+  var TraktEpisodesProvider = require('../lib/diyvod/tv/trakt/episodesProvider');
 
   it('maps trakt json properly', function () {
 
