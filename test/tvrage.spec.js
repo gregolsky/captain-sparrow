@@ -14,9 +14,9 @@ describe('TvRage client', function () {
     expect(url).toBe('http://services.tvrage.com/myfeeds/search.php?key=' + KEY + '&show=' + SHOW_ENCODED);
   });
 
-  it('searches for shows', function (done) {
+  xit('searches for shows', function (done) {
 
-    var client = new TvRage('YDKH1Ehu25Guy1JehADu');
+    var client = new TvRage('CUT');
     
     client.search('Walking')
       .then(function (data) {
