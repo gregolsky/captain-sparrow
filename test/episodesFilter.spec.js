@@ -55,7 +55,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result).toBe(false);
+        expect(result.value).toBe(false);
+        expect(result.reason).toBe('library contains');
         done();
       })
       .done();
@@ -71,7 +72,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result).toBe(false);
+        expect(result.value).toBe(false);
+        expect(result.reason).toBe('already queued');
         done();
       })
       .done();
@@ -86,7 +88,7 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result).toBe(false);
+        expect(result.value).toBe(false);
         done();
       });
   });
@@ -104,7 +106,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result).toBe(true);
+        expect(result.value).toBe(true);
+        expect(result.reason).toBeUndefined();
         done();
       })
       .done();
@@ -132,7 +135,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result).not.toBeDefined();
+        expect(result.value).toBe(true);
+        expect(result.reason).not.toBeDefined();
         done();
       }, function (error) {
         expect(error.message).toBe('Surprise!');
