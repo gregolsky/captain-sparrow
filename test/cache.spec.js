@@ -1,7 +1,7 @@
 describe('Cache', function () {
 
   var q = require('q');
-  var Cache = require('../lib/diyvod/tv/tvrage/cache');
+  var Cache = require('../lib/diyvod/cache');
 
   var logger = jasmine.createSpyObj('logger', [ 'error', 'info' ]);
 

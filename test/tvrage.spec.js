@@ -1,6 +1,6 @@
 describe('TvRage client', function () {
 
-  var TvRage = require('../lib/diyvod/tv/tvrage/client');
+  var TvRage = require('../lib/diyvod/tvrage/client');
 
   var KEY = 'test';
   var SHOW = 'The Walking Dead';

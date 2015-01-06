@@ -46,9 +46,11 @@ describe('Task factory', function () {
 
   it('resolves dependencies for tv shows download task', function () {
   
-    var task = taskFactory.resolve('tv', fakeSettings, mockFs);
-    expect(task).toBeDefined();
-    expect(task.execute).toBeDefined();
+    taskFactory.resolve('tv', fakeSettings, mockFs)
+      .then(function (task) {
+        expect(task).toBeDefined();
+        expect(task.execute).toBeDefined();
+      });
 
   });
 

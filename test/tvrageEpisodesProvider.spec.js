@@ -22,7 +22,7 @@ describe('TvRage episodes provider', function () {
   };
 
 
-  var EpisodesProvider = require('../lib/diyvod/tv/tvrage/episodesProvider');
+  var EpisodesProvider = require('../lib/diyvod/tvrage/episodesProvider');
 
   var showNames = [ 'The Walking Dead' ];
   var sinceDate = new Date(2014, 10, 12);
