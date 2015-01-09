@@ -1,4 +1,4 @@
-describe('TvRage episodes provider', function () {
+describe('TvRage data mapper', function () {
 
   var q = require('q');
   var moment = require('moment');
@@ -21,30 +21,19 @@ describe('TvRage episodes provider', function () {
     return deferred.promise;
   };
 
-
-  var EpisodesProvider = require('../lib/diyvod/tvrage/episodesProvider');
-
-  var showNames = [ 'The Walking Dead' ];
-  var sinceDate = new Date(2014, 10, 12);
-
   var tvRage = {
     search: function () { return parseXml(getSearchResult()); },
     showInfo: function () { return parseXml(getShowInfoResult()); },
     episodeList: function () { return parseXml(getEpisodeListResult()); }
   }
 
-  var dateService = {
-    currentDate: function () { return new Date(2015, 0, 1); }
-  };
-
-  var logger = jasmine.createSpyObj('logger', [ 'error', 'info' ]);
-
   it('maps tvrage results properly', function (done) {
     
-    var provider = new EpisodesProvider(showNames, sinceDate, tvRage, dateService, logger);
+    var mapper = require('../lib/diyvod/tvrage/mapper');
+
     q.all([ tvRage.showInfo(), tvRage.episodeList() ])
       .then(function (responses) {
-        var episodes = provider.mapEpisodes(responses[0].Showinfo,responses[1].Show.Episodelist[0].Season);
+        var episodes = mapper.mapEpisodes(responses[0].Showinfo,responses[1].Show.Episodelist[0].Season);
 
         expect(episodes).toBeDefined();
         expect(episodes.length).toBe(60);
@@ -65,23 +54,6 @@ describe('TvRage episodes provider', function () {
       .catch(function (reason) {
         done(reason); 
       });
-
-  });
-
-  it('maps showInfo result properly', function (done) {
-    var provider = new EpisodesProvider(showNames, sinceDate, tvRage, dateService, logger);
-    provider.getShowInfo('The Walking Dead')
-      .then(function (showInfoResponse) {
-        expect(showInfoResponse).toBeDefined();
-        expect(showInfoResponse.Showinfo).toBeDefined();
-        expect(showInfoResponse.Showinfo.showid[0]).toBe('25056');
-        expect(showInfoResponse.Showinfo.showname[0]).toBe('The Walking Dead');
-        done();
-      })
-      .catch(function (reason) {
-        done(reason); 
-      });
-    
   });
 
   function getEpisodeListResult() {
