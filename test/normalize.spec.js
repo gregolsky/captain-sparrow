@@ -4,7 +4,7 @@ describe('Normalization util', function () {
 
   it('can pad strings', function () {
     var result = normalize.padLeft('S00', 4);
-    expect(result).toBe('S04');
+    result.should.equal('S04');
   });
 
 });

@@ -1,6 +1,6 @@
 describe('Kickass torrents client', function () {
 
-  var Kickass = require('../lib/diyvod/torrentProvider/kickass.js');
+  var Kickass = include('torrentProvider/kickass');
 
   /* Integration test */
   xit('finds some torrents, when asked for linux', function (done) {
@@ -9,18 +9,18 @@ describe('Kickass torrents client', function () {
     kickass.search('linux')
     .done(function (results) {
 
-      expect(results).toBeDefined();
-      expect(results.list).toBeDefined();
-      expect(results.list.length).toBeGreaterThan(0);
+      should.exist(results);
+      should.exist(results.list);
+      results.list.length.should.to.be.above(0);
 
       var entry = results.list[0];
 
-      expect(entry).toBeDefined();
-      expect(entry.title).toBeDefined();
-      expect(entry.seeds).toBeDefined();
-      expect(entry.leechs).toBeDefined();
-      expect(entry.size).toBeDefined();
-      expect(entry.torrentLink).toBeDefined();
+      should.exist(entry);
+      should.exist(entry.title);
+      should.exist(entry.seeds);
+      should.exist(entry.leechs);
+      should.exist(entry.size);
+      should.exist(entry.torrentLink);
 
       done();
     });

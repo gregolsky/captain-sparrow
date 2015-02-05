@@ -35,19 +35,19 @@ describe('TvRage data mapper', function () {
       .then(function (responses) {
         var episodes = mapper.mapEpisodes(responses[0].Showinfo,responses[1].Show.Episodelist[0].Season);
 
-        expect(episodes).toBeDefined();
-        expect(episodes.length).toBe(60);
+        should.exist(episodes);
+        episodes.length.should.equal(60);
 
         var episode = episodes[0];
 
-        expect(episode.show).toBe('The Walking Dead');
-        expect(episode.number).toBe(1);
-        expect(episode.getEpisodeNumber()).toBe('S01E01');
-        expect(episode.title).toBe('Days Gone Bye');
+        episode.show.should.equal('The Walking Dead');
+        episode.number.should.equal(1);
+        episode.getEpisodeNumber().should.equal('S01E01');
+        episode.title.should.equal('Days Gone Bye');
 
         var airtime = moment('2010-10-31T21:00-05:00').toDate();
-        expect(episode.airtime.toString()).toBe(airtime.toString());
-        expect(episode.runtime).toBe(60);
+        episode.airtime.toString().should.equal(airtime.toString());
+        episode.runtime.should.equal(60);
 
         done();
       })

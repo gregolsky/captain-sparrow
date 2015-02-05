@@ -1,6 +1,6 @@
 describe('Kickass torrent search', function () {
 
-  var KickassTorrentProvider = require('../lib/diyvod/torrentProvider/kickassTorrentProvider');
+  var KickassTorrentProvider = include('torrentProvider/kickassTorrentProvider');
 
   it('maps kickass torrents json', function () {
 
@@ -8,18 +8,18 @@ describe('Kickass torrent search', function () {
 
     var results = search.mapResults(JSON.parse(getSampleJson()));
 
-    expect(results).toBeDefined();
-    expect(results.length).toBeGreaterThan(0);
+    should.exist(results);
+    results.length.should.be.above(0);
 
     var entry = results[0];
 
-    expect(entry).toBeDefined();
-    expect(entry.seeds).toBeDefined();
-    expect(entry.leechs).toBeDefined();
-    expect(entry.size).toBeDefined();
-    expect(entry.name).toBeDefined();
-    expect(entry.createdAt).toBeDefined();
-    expect(entry.torrentLink).toBeDefined();
+    should.exist(entry);
+    should.exist(entry.seeds);
+    should.exist(entry.leechs);
+    should.exist(entry.size);
+    should.exist(entry.name);
+    should.exist(entry.createdAt);
+    should.exist(entry.torrentLink);
   });
 
   function getSampleJson() {

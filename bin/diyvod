@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
 var cli = require('cli'),
-    Diyvod = require('../lib/diyvod');
+Diyvod = require('../lib/diyvod');
 
 cli.parse({
- since: [ 's', 'date from, which search for episodes starts', 'string'],
- save: ['p', 'save torrent file under selected path', 'string'],
- index: ['i', 'result index', 'number'],
- show: ['n', 'show name', 'string'],
+    since: [ 's', 'date from, which search for episodes starts', 'string'],
+    save: ['p', 'save torrent file under selected path', 'string'],
+    index: ['i', 'result index', 'number'],
+    show: ['n', 'show name', 'string'],
 });
 
 cli.main(function (args, options) {
 
-  new Diyvod(args, options).run().done();
+    new Diyvod(args, options).run().done();
 
 });

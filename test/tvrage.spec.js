@@ -1,6 +1,6 @@
 describe('TvRage client', function () {
 
-  var TvRage = require('../lib/diyvod/tvrage/client');
+  var TvRage = include('tvrage/client');
 
   var KEY = 'test';
   var SHOW = 'The Walking Dead';
@@ -11,7 +11,7 @@ describe('TvRage client', function () {
     var client = new TvRage(KEY);
 
     var url = client.buildRequestUrl('search', { show: SHOW });
-    expect(url).toBe('http://services.tvrage.com/myfeeds/search.php?key=' + KEY + '&show=' + SHOW_ENCODED);
+    url.should.equal('http://services.tvrage.com/myfeeds/search.php?key=' + KEY + '&show=' + SHOW_ENCODED);
   });
 
   xit('searches for shows', function (done) {
@@ -21,8 +21,8 @@ describe('TvRage client', function () {
     client.search('Walking')
       .then(function (data) {
         var show = data.Results.show[0];
-        expect(show.name[0]).toBe('The Walking Dead');
-        expect(show.showid[0]).toBe('25056');
+        show.name[0].should.equal('The Walking Dead');
+        show.showid[0].should.equal('25056');
         done();
       }, function (reason) {
         done(reason);

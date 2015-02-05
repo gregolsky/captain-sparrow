@@ -1,6 +1,7 @@
 describe('Episode filter', function () {
 
-  var EpisodeFilter = require('../lib/diyvod/tv/episodeFilter');
+  var EpisodeFilter = include('tv/episodeFilter');
+
   var q = require('q');
   var moment = require('moment');
 
@@ -55,8 +56,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result.value).toBe(false);
-        expect(result.reason).toBe('library contains');
+        result.value.should.be.false();
+        result.reason.should.equal('library contains');
         done();
       })
       .done();
@@ -72,8 +73,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result.value).toBe(false);
-        expect(result.reason).toBe('already queued');
+        result.value.should.be.false();
+        result.reason.should.equal('already queued');
         done();
       })
       .done();
@@ -88,7 +89,7 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result.value).toBe(false);
+        result.value.should.be.false();
         done();
       });
   });
@@ -106,8 +107,8 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result.value).toBe(true);
-        expect(result.reason).toBeUndefined();
+        result.value.should.be.true();
+        should.not.exist(result.reason);
         done();
       })
       .done();
@@ -135,11 +136,11 @@ describe('Episode filter', function () {
 
       filter.filter(episodeData)
       .then(function (result) {
-        expect(result.value).toBe(true);
-        expect(result.reason).not.toBeDefined();
+        result.value.should.be.true();
+        should.not.exist(result.reason);
         done();
       }, function (error) {
-        expect(error.message).toBe('Surprise!');
+        error.message.should.equal('Surprise!');
         done();
       });
 

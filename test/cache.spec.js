@@ -1,9 +1,15 @@
+var chai = require('chai'),
+    sinon = require('sinon');
+
 describe('Cache', function () {
 
   var q = require('q');
   var Cache = require('../lib/diyvod/cache');
 
-  var logger = jasmine.createSpyObj('logger', [ 'error', 'info' ]);
+  var logger = {
+    error: sinon.spy(),
+    info: sinon.spy() 
+  }; 
 
   var simpleCache, simpleService, simpleServiceCacheSettings;
 
@@ -11,11 +17,13 @@ describe('Cache', function () {
     var fileManager = getFileManager({});
 
     simpleCache = new Cache(fileManager, getDateService(new Date(2015, 0, 01)), logger);
+    
     simpleService = {
       operation: function () {
         return q.when(1);
       }
     };
+
     simpleServiceCacheSettings = {
       file: 'root/tvRageCache',
       ttl: {
@@ -23,21 +31,22 @@ describe('Cache', function () {
       },
       operations: [ 'operation' ]
     };
+
   });
 
-  it ('proxies operations of existing services', function (done) {
+  it('proxies operations of existing services', function (done) {
 
-    expect(simpleCache.cache).toBe(null);
+    should.not.exist(simpleCache.cache);
 
     simpleCache.attach(simpleService, simpleServiceCacheSettings)
     .then(function () {
-      expect(simpleCache.cache).not.toBe(null);
-      expect(simpleCache.operation).toBeDefined();
+      should.exist(simpleCache.cache);
+      should.exist(simpleCache.operation);
 
       return simpleCache.operation(1);
     })
     .then(function (result) {
-      expect(result).toBe(1);
+      result.should.equal(1);
       done();
     })
     .catch(function (reason) {
@@ -53,9 +62,10 @@ describe('Cache', function () {
       return simpleCache.operation(1);
     })
     .then(function (result) {
-      expect(simpleCache.cache['operation{"0":1}']).toBeDefined();
-      expect(simpleCache.cache['operation{"0":1}'].result).toBe(1);
-      expect(simpleCache.cache['operation{"0":1}'].expirationDate).toBe('2015-01-03');
+      should.exist(simpleCache.cache['operation{"0":1}']);
+      simpleCache.cache['operation{"0":1}'].result.should.equal(1);
+      simpleCache.cache['operation{"0":1}'].expirationDate.should.equal('2015-01-03');
+
       done();
     })
     .catch(function (reason) {
@@ -77,7 +87,8 @@ describe('Cache', function () {
       return fs.read(simpleServiceCacheSettings.file);
     })
     .then(function (cacheFileContent) {
-      expect(cacheFileContent).toBe('{"operation{\\"0\\":1}":{"expirationDate":"2015-01-03","result":1}}');
+      cacheFileContent.should.equal('{"operation{\\"0\\":1}":{"expirationDate":"2015-01-03","result":1}}');
+
       done();
     })
     .catch(function (reason) {

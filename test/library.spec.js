@@ -14,17 +14,17 @@ describe('TV shows library', function () {
     }
   });
 
-  var Episode = require('../lib/diyvod/tv/episode');
+  var Episode = include('tv/episode');
 
-  var TvShowsLibrary = require('../lib/diyvod/tv/library');
+  var TvShowsLibrary = include('tv/library');
 
   it('initializes library from directory', function(done) {
 
     var library = new TvShowsLibrary({ tv: { libraryPath: "root/a" } }, mockFs); 
     library.initialize()
     .then(function () {
-      expect(library.files.length).toBeDefined();
-      expect(library.files.length).toBe(2);
+      should.exist(library.files.length);
+      library.files.length.should.equal(2);
       done();
     });;
   });
@@ -38,7 +38,7 @@ describe('TV shows library', function () {
     library.initialize()
     .then(function () {
       var episodeInLibrary = library.contains(episode);
-      expect(episodeInLibrary).toBe(true);
+      episodeInLibrary.should.be.true();
       done();
     });
   });
