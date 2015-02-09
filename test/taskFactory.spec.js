@@ -6,7 +6,7 @@ describe('Task factory', function () {
       apiKey: '',
       username: '',
     },
-    tvrage: {
+    tvmaze: {
       apiKey: '',
       shows: [],
       cache: {
@@ -16,7 +16,7 @@ describe('Task factory', function () {
           search: 30,
           showInfo: 30,
           episodeList: 7
-        } 
+        }
       },
     },
     transmission: {
@@ -45,7 +45,7 @@ describe('Task factory', function () {
   });
 
   it('resolves dependencies for tv shows download task', function () {
-  
+
     taskFactory.resolve('tv', fakeSettings, mockFs)
       .then(function (task) {
         expect(task).toBeDefined();
