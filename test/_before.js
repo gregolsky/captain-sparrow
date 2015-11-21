@@ -1,5 +1,5 @@
 require('babel/register');
-require('../lib/diyvod');
+require('../lib/captain-sparrow');
 
 var chai = require('chai');
 var should = chai.should();

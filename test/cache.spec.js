@@ -4,7 +4,7 @@ var chai = require('chai'),
 describe('Cache', function () {
 
   var q = require('q');
-  var Cache = require('../lib/diyvod/cache');
+  var Cache = require('../lib/captain-sparrow/cache');
 
   var logger = {
     error: sinon.spy(),

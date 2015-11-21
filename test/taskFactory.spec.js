@@ -1,6 +1,6 @@
 describe('Task factory', function () {
 
-  var taskFactory = require('../lib/diyvod/taskFactory');
+  var taskFactory = require('../lib/captain-sparrow/taskFactory');
   var fakeSettings = {
     trakt: {
       apiKey: '',

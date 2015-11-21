@@ -1,6 +1,6 @@
 describe('Normalization util', function () {
 
-  var normalize = require('../lib/diyvod/normalize');
+  var normalize = require('../lib/captain-sparrow/normalize');
 
   it('can pad strings', function () {
     var result = normalize.padLeft('S00', 4);

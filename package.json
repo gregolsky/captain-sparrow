@@ -1,12 +1,12 @@
 {
-  "name": "diyvod",
-  "version": "1.0.0",
+  "name": "captain-sparrow",
+  "version": "1.1.0",
   "description": "Check for shows and download them.",
-  "repository": "https://github.com/gregorl/diyvod.git",
+  "repository": "https://github.com/gregolsky/captain-sparrow.git",
   "keywords": [],
   "private": "true",
   "bin": {
-    "diyvod": "./bin/diyvod"
+    "captain-sparrow": "./bin/captain-sparrow"
   },
   "scripts": {
     "test": "mocha"
