@@ -8,16 +8,16 @@ describe('Cache', function () {
 
   var logger = {
     error: sinon.spy(),
-    info: sinon.spy() 
-  }; 
+    info: sinon.spy()
+  };
 
   var simpleCache, simpleService, simpleServiceCacheSettings;
 
   beforeEach(function () {
     var fileManager = getFileManager({});
 
-    simpleCache = new Cache(fileManager, getDateService(new Date(2015, 0, 01)), logger);
-    
+    simpleCache = new Cache(fileManager, getDateService(new Date(2015, 0, 1)), logger);
+
     simpleService = {
       operation: function () {
         return q.when(1);
