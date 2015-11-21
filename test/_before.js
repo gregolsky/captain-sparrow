@@ -1,4 +1,4 @@
-
+require('babel/register');
 require('../lib/diyvod');
 
 var chai = require('chai');
