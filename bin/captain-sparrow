@@ -3,7 +3,7 @@
 require('babel/register');
 
 var cli = require('cli'),
-Diyvod = require('../lib/diyvod');
+CaptainSparrow = require('../lib/captain-sparrow');
 
 cli.parse({
     since: [ 's', 'date from, which search for episodes starts', 'string'],
@@ -14,6 +14,6 @@ cli.parse({
 
 cli.main(function (args, options) {
 
-    new Diyvod(args, options).run().done();
+    new CaptainSparrow(args, options).run().done();
 
 });
