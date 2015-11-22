@@ -13,7 +13,9 @@
   },
   "author": "Grzegorz Lachowski",
   "dependencies": {
-    "babel": "^5.8.23",
+    "babel-core": "^6.2.1",
+    "babel-plugin-add-module-exports": "^0.1.1",
+    "babel-preset-es2016-node5": "^1.1.2",
     "cli": "^0.6.5",
     "colors": "^1.0.3",
     "expand-home-dir": "0.0.2",
@@ -30,6 +32,7 @@
     "xml2js": "^0.4.4"
   },
   "devDependencies": {
+    "babel-preset-es2015-node5": "^1.1.0",
     "chai": "^1.10.0",
     "eslint": "^1.5.1",
     "mocha": "^2.1.0",

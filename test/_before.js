@@ -1,4 +1,7 @@
-require('babel/register');
+'use strict';
+
+require('babel-core/register');
+
 require('../lib/captain-sparrow');
 
 var chai = require('chai');
