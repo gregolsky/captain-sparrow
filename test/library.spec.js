@@ -23,9 +23,9 @@ describe('TV shows library', function () {
     var library = new TvShowsLibrary({ tv: { libraryPath: "root/a" } }, mockFs);
     library.initialize()
     .then(function () {
-        should.exist(library.filenames);
-        should.exist(library.filenames.length);
-        library.filenames.length.should.equal(2);
+        should.exist(library.entries);
+        should.exist(library.entries.length);
+        library.entries.length.should.equal(2);
         done();
     })
     .catch(done);
@@ -43,7 +43,8 @@ describe('TV shows library', function () {
       var episodeInLibrary = library.contains(episode);
       episodeInLibrary.should.be.true();
       done();
-    });
+    })
+    .catch(done);
   });
 
 });

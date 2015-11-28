@@ -1,0 +1,19 @@
+{
+  "extends": "standard",
+  "plugins": [
+      "standard"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "globals": {
+      "include": true
+  },
+  "rules": {
+      "semi": [ 2, "always" ],
+      "one-var": 0,
+      "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+      "padded-blocks": 0
+  }
+}
