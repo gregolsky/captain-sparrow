@@ -9,7 +9,9 @@
     "captain-sparrow": "./bin/captain-sparrow"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint .",
+    "check": "eslint . && mocha"
   },
   "author": "Grzegorz Lachowski",
   "dependencies": {

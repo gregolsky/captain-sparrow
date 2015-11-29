@@ -5,6 +5,7 @@
   ],
   "parser": "babel-eslint",
   "env": {
+    "es6": true,
     "node": true
   },
   "globals": {
@@ -21,6 +22,7 @@
       "semi": [ 2, "always" ],
       "one-var": 0,
       "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
-      "padded-blocks": 0
+      "padded-blocks": 0,
+      "indent": [ 2, 4, { "VariableDeclarator": 0 } ]
   }
 }
