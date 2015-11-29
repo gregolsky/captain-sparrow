@@ -28,6 +28,12 @@ describe('Task factory', function () {
             hoursAfterAirTime: 4,
             libraryPath: '',
             downloadDirectory: ''
+        },
+        notifications: {
+            pushbulletApiKey: 'baba'
+        },
+        subs: {
+            command: 'test'
         }
     };
 
@@ -47,6 +53,16 @@ describe('Task factory', function () {
     it('resolves dependencies for tv shows download task', function () {
 
         taskFactory.resolve('tv', fakeSettings, mockFs)
+        .then(function (task) {
+            expect(task).toBeDefined();
+            expect(task.execute).toBeDefined();
+        });
+
+    });
+
+    it('resolves dependencies for subs task', function () {
+
+        taskFactory.resolve('subs', fakeSettings, mockFs)
         .then(function (task) {
             expect(task).toBeDefined();
             expect(task.execute).toBeDefined();

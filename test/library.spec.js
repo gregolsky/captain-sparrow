@@ -16,7 +16,7 @@ describe('TV shows library', function () {
 
     var Episode = include('tv/episode');
 
-    var TvShowsLibrary = include('tv/library');
+    var TvShowsLibrary = include('library');
 
     it('initializes library from directory', (done) => {
 
@@ -42,6 +42,22 @@ describe('TV shows library', function () {
         .then(function () {
             var episodeInLibrary = library.contains(episode);
             episodeInLibrary.should.be.true();
+            done();
+        })
+        .catch(done);
+    });
+
+    it('stupid show has subtitles', (done) => {
+
+        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } }, mockFs);
+
+        library.initialize()
+        .then(() => {
+            expect(library.entries[0].subsPath).to.exist();
+            library.entries[0].subsPath.should.equal('root/a/Most.stupid.show.ever.s04e02.hdtv.txt');
+            library.entries[0].hasSubtitles.should.be.true();
+
+            library.entries[1].hasSubtitles.should.be.false();
             done();
         })
         .catch(done);
