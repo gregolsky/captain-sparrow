@@ -1,5 +1,4 @@
-var chai = require('chai'),
-    sinon = require('sinon');
+var sinon = require('sinon');
 
 describe('Cache', function () {
 
@@ -55,7 +54,7 @@ describe('Cache', function () {
 
   });
 
-  it ('caches results', function (done) {
+  it('caches results', function (done) {
 
     simpleCache.attach(simpleService, simpleServiceCacheSettings)
     .then(function () {
@@ -74,7 +73,7 @@ describe('Cache', function () {
 
   });
 
-  it ('serializes to file', function (done) {
+  it('serializes to file', function (done) {
     simpleCache.attach(simpleService, simpleServiceCacheSettings)
     .then(function () {
       return simpleCache.operation(1);
@@ -97,23 +96,23 @@ describe('Cache', function () {
 
   });
 
-  function getFileManager(cacheContent) {
+  function getFileManager (cacheContent) {
     var MockFs = require('q-io/fs-mock');
     var mockFs = MockFs({
-      "root": {
-        "tvRageCache": JSON.stringify(cacheContent)
+      'root': {
+        'tvRageCache': JSON.stringify(cacheContent)
       }
     });
 
     return mockFs;
   }
 
-  function getDateService(now) {
+  function getDateService (now) {
     return {
       currentDate: function () {
         return now;
       }
-    }
+    };
   }
 
 });

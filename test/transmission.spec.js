@@ -15,10 +15,10 @@ describe('Transmission daemon client', function () {
     var client = new TransmissionClient(settings);
     client.list()
       .then(function (queue) {
-      
+
         expect(queue).toBeDefined();
         expect(queue.length).toBe(1);
-        
+
         var torrent = queue[0];
         expect(torrent.name).toBeDefined();
         expect(torrent.downloadDir).toBeDefined();
@@ -26,7 +26,7 @@ describe('Transmission daemon client', function () {
         done();
       }, function (err) {
         console.error(err);
-        done();    
+        done();
       });
 
   });
@@ -36,7 +36,7 @@ describe('Transmission daemon client', function () {
     var client = new TransmissionClient(settings);
     var link = 'http://releases.ubuntu.com/14.10/ubuntu-14.10-desktop-amd64.iso.torrent';
     var addOptions = {
-      "download-dir": '/media/data/'
+      'download-dir': '/media/data/'
     };
 
     client.addUrl(link, addOptions)

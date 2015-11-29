@@ -17,22 +17,22 @@ describe('Episode filter', function () {
     }
 
     return {
-      contains: function () { 
+      contains: function () {
         var deferred = q.defer();
 
-        setTimeout(function () { 
+        setTimeout(function () {
           deferred.resolve(result);
         }, 10);
 
-        return deferred.promise; 
+        return deferred.promise;
       }
     };
   };
 
-
   var date;
   var episodeData;
   var fakeDateService;
+
   beforeEach(function () {
     date = new Date();
     episodeData = {
@@ -45,16 +45,15 @@ describe('Episode filter', function () {
     };
   });
 
-
   it('filters out episode, when library contains', function (done) {
 
     var filter = new EpisodeFilter(
       createSettings(0),
-      createFakeWithContains(false), 
-      createFakeWithContains(true, true), 
+      createFakeWithContains(false),
+      createFakeWithContains(true, true),
       fakeDateService);
 
-      filter.filter(episodeData)
+    filter.filter(episodeData)
       .then(function (result) {
         result.value.should.be.false();
         result.reason.should.equal('library contains');
@@ -67,11 +66,11 @@ describe('Episode filter', function () {
   it('filters out episode, when download queue contains', function (done) {
     var filter = new EpisodeFilter(
       createSettings(0),
-      createFakeWithContains(true), 
-      createFakeWithContains(false, true), 
+      createFakeWithContains(true),
+      createFakeWithContains(false, true),
       fakeDateService);
 
-      filter.filter(episodeData)
+    filter.filter(episodeData)
       .then(function (result) {
         result.value.should.be.false();
         result.reason.should.equal('already queued');
@@ -83,11 +82,11 @@ describe('Episode filter', function () {
   it('filters out episode, when it is surely too early to download', function (done) {
     var filter = new EpisodeFilter(
       createSettings(1),
-      createFakeWithContains(false), 
-      createFakeWithContains(false, true), 
+      createFakeWithContains(false),
+      createFakeWithContains(false, true),
       fakeDateService);
 
-      filter.filter(episodeData)
+    filter.filter(episodeData)
       .then(function (result) {
         result.value.should.be.false();
         done();
@@ -97,15 +96,15 @@ describe('Episode filter', function () {
   it('does not filter episode out, when all is ok', function (done) {
     var filter = new EpisodeFilter(
       createSettings(1),
-      createFakeWithContains(false), 
-      createFakeWithContains(false, true), 
+      createFakeWithContains(false),
+      createFakeWithContains(false, true),
       {
         currentDateTime: function () { return moment(date).add(1, 'h').toDate(); }
       });
 
-      var episodeData = { airtime: date };
+    var episodeData = { airtime: date };
 
-      filter.filter(episodeData)
+    filter.filter(episodeData)
       .then(function (result) {
         result.value.should.be.true();
         should.not.exist(result.reason);
@@ -119,7 +118,7 @@ describe('Episode filter', function () {
     var filter = new EpisodeFilter(
       createSettings(0),
       {
-        contains: function () { 
+        contains: function () {
           var deferred = q.defer();
 
           setTimeout(function () {
@@ -128,13 +127,13 @@ describe('Episode filter', function () {
 
           return deferred.promise;
         }
-      }, 
-      createFakeWithContains(false, true), 
+      },
+      createFakeWithContains(false, true),
       fakeDateService);
 
-      var episodeData = {};
+    var episodeData = {};
 
-      filter.filter(episodeData)
+    filter.filter(episodeData)
       .then(function (result) {
         result.value.should.be.true();
         should.not.exist(result.reason);

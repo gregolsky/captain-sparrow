@@ -4,7 +4,7 @@ describe('Task factory', function () {
   var fakeSettings = {
     trakt: {
       apiKey: '',
-      username: '',
+      username: ''
     },
     tvmaze: {
       apiKey: '',
@@ -17,7 +17,7 @@ describe('Task factory', function () {
           showInfo: 30,
           episodeList: 7
         }
-      },
+      }
     },
     transmission: {
       host: 'localhost',
@@ -33,13 +33,13 @@ describe('Task factory', function () {
 
   var MockFs = require('q-io/fs-mock');
   var mockFs = MockFs({
-    "root": {
-      "a": {
-        "b": {
-          "c.txt": "Content of a/b/c.txt",
-          "fun.stuff.s01e01.mkv": 'asdg'
+    'root': {
+      'a': {
+        'b': {
+          'c.txt': 'Content of a/b/c.txt',
+          'fun.stuff.s01e01.mkv': 'asdg'
         },
-        "Most.stupid.show.ever.s04e02.hdtv.mkv": 'asdg'
+        'Most.stupid.show.ever.s04e02.hdtv.mkv': 'asdg'
       }
     }
   });
