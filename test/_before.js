@@ -5,7 +5,7 @@ require('babel-core/register');
 require('../lib/captain-sparrow');
 
 var chai = require('chai');
-var should = chai.should();
+chai.config.includeStack = true;
 
 global.expect = chai.expect;
-global.should = should;
+global.should = chai.should();

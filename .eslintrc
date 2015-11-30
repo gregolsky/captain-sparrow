@@ -1,0 +1,28 @@
+{
+  "extends": "standard",
+  "plugins": [
+      "standard"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "globals": {
+      "include": true,
+      "it": true,
+      "xit": true,
+      "describe": true,
+      "beforeEach": true,
+      "afterEach": true,
+      "should": true,
+      "expect": true
+  },
+  "rules": {
+      "semi": [ 2, "always" ],
+      "one-var": 0,
+      "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+      "padded-blocks": 0,
+      "indent": [ 2, 4, { "VariableDeclarator": 0 } ]
+  }
+}
