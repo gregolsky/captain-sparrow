@@ -61,9 +61,10 @@ describe('Cache', function () {
             return simpleCache.operation(1);
         })
         .then(function (result) {
-            should.exist(simpleCache.cache['operation{"0":1}']);
-            simpleCache.cache['operation{"0":1}'].result.should.equal(1);
-            simpleCache.cache['operation{"0":1}'].expirationDate.should.equal('2015-01-03');
+            const KEY = 'operation[1]';
+            should.exist(simpleCache.cache[KEY]);
+            simpleCache.cache[KEY].result.should.equal(1);
+            simpleCache.cache[KEY].expirationDate.should.equal('2015-01-03');
 
             done();
         })
@@ -86,7 +87,7 @@ describe('Cache', function () {
             return fs.read(simpleServiceCacheSettings.file);
         })
         .then(function (cacheFileContent) {
-            cacheFileContent.should.equal('{"operation{\\"0\\":1}":{"expirationDate":"2015-01-03","result":1}}');
+            cacheFileContent.should.equal('{"operation[1]":{"expirationDate":"2015-01-03","result":1}}');
 
             done();
         })
