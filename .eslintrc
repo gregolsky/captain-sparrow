@@ -23,6 +23,6 @@
       "one-var": 0,
       "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
       "padded-blocks": 0,
-      "indent": [ 2, 4, { "VariableDeclarator": 0 } ]
+      "indent": [2, 4, { "VariableDecorator": 0 }]
   }
 }
