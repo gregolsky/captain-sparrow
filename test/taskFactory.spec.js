@@ -1,6 +1,7 @@
+import sinon from 'sinon';
+
 describe('Task factory', function () {
 
-    var taskFactory = require('../lib/captain-sparrow/taskFactory');
     var fakeSettings = {
         trakt: {
             apiKey: '',
@@ -37,35 +38,33 @@ describe('Task factory', function () {
         }
     };
 
-    var MockFs = require('q-io/fs-mock');
-    var mockFs = MockFs({
-        'root': {
-            'a': {
-                'b': {
-                    'c.txt': 'Content of a/b/c.txt',
-                    'fun.stuff.s01e01.mkv': 'asdg'
-                },
-                'Most.stupid.show.ever.s04e02.hdtv.mkv': 'asdg'
-            }
+    let taskFactory;
+
+    useMockery(beforeEach, afterEach, () => ({
+        'captain-sparrow/cache': function () {
+            this.attach = sinon.spy();
         }
+    }));
+
+    beforeEach(function () {
+        this.timeout(5000);
+        taskFactory = require('captain-sparrow/taskFactory')
     });
 
     it('resolves dependencies for tv shows download task', function () {
-
-        taskFactory.resolve('tv', fakeSettings, mockFs)
+        return taskFactory.resolve('tv', fakeSettings)
         .then(function (task) {
-            expect(task).toBeDefined();
-            expect(task.execute).toBeDefined();
+            expect(task).to.not.be.undefined;
+            expect(task.execute).to.not.be.undefined;
         });
-
     });
 
     it('resolves dependencies for subs task', function () {
 
-        taskFactory.resolve('subs', fakeSettings, mockFs)
+        return taskFactory.resolve('subs', fakeSettings)
         .then(function (task) {
-            expect(task).toBeDefined();
-            expect(task.execute).toBeDefined();
+            expect(task).to.not.be.undefined;
+            expect(task.execute).to.not.be.undefined;
         });
 
     });

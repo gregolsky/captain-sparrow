@@ -1,25 +1,28 @@
-var sinon = require('sinon');
+import sinon from 'sinon';
 
 describe('Cache', function () {
 
-    var q = require('q');
-    var Cache = require('../lib/captain-sparrow/cache');
+        this.timeout(0);
+    let Cache;
+    let simpleCache, simpleService, simpleServiceCacheSettings;
 
-    var logger = {
-        error: sinon.spy(),
-        info: sinon.spy()
-    };
+    useMockery(beforeEach, afterEach,() => ({
+        'fs': global.getFsMock({
+            'root': {}
+        }),
+        'captain-sparrow/logger': global.getLoggerMock()
+    }));
 
-    var simpleCache, simpleService, simpleServiceCacheSettings;
+    beforeEach(() => {
+        Cache = require('captain-sparrow/cache').default;
+    });
 
     beforeEach(function () {
-        var fileManager = getFileManager({});
-
-        simpleCache = new Cache(fileManager, getDateService(new Date(2015, 0, 1)), logger);
+        simpleCache = new Cache(getDateService(new Date(2015, 0, 1)));
 
         simpleService = {
-            operation: function () {
-                return q.when(1);
+            operation () {
+                return Promise.resolve(1);
             }
         };
 
@@ -33,11 +36,11 @@ describe('Cache', function () {
 
     });
 
-    it('proxies operations of existing services', function (done) {
+    it('proxies operations of existing services', function () {
 
         should.not.exist(simpleCache.cache);
 
-        simpleCache.attach(simpleService, simpleServiceCacheSettings)
+        return simpleCache.attach(simpleService, simpleServiceCacheSettings)
         .then(function () {
             should.exist(simpleCache.cache);
             should.exist(simpleCache.operation);
@@ -46,10 +49,6 @@ describe('Cache', function () {
         })
         .then(function (result) {
             result.should.equal(1);
-            done();
-        })
-        .catch(function (reason) {
-            done(reason);
         });
 
     });
@@ -74,39 +73,16 @@ describe('Cache', function () {
 
     });
 
-    it('serializes to file', function (done) {
-        simpleCache.attach(simpleService, simpleServiceCacheSettings)
-        .then(function () {
-            return simpleCache.operation(1);
-        })
-        .then(function (result) {
-            return simpleCache.save();
-        })
-        .then(function () {
-            var fs = simpleCache.fileManager;
-            return fs.read(simpleServiceCacheSettings.file);
-        })
-        .then(function (cacheFileContent) {
+    it('serializes to file', function () {
+        let fs = require('captain-sparrow/fs');
+        return simpleCache.attach(simpleService, simpleServiceCacheSettings)
+        .then(() => simpleCache.operation(1))
+        .then(result => simpleCache.save())
+        .then(() => fs.readFile(simpleServiceCacheSettings.file, 'utf8'))
+        .then(cacheFileContent => {
             cacheFileContent.should.equal('{"operation[1]":{"expirationDate":"2015-01-03","result":1}}');
-
-            done();
-        })
-        .catch(function (reason) {
-            done(reason);
         });
-
     });
-
-    function getFileManager (cacheContent) {
-        var MockFs = require('q-io/fs-mock');
-        var mockFs = MockFs({
-            'root': {
-                'tvRageCache': JSON.stringify(cacheContent)
-            }
-        });
-
-        return mockFs;
-    }
 
     function getDateService (now) {
         return {

@@ -1,11 +1,11 @@
 'use strict';
 
-var moment = require('moment');
+import moment from 'moment';
+import Episode from 'captain-sparrow/tv/episode';
+import { mapEpisodes } from 'captain-sparrow/tvmaze/mapper';
 
 describe('TvMaze mapper', () => {
 
-    var mapper = include('tvmaze/mapper');
-    var Episode = include('tv/episode');
     var data = [{
         'id': 1,
         'url': 'http://www.tvmaze.com/episodes/1/under-the-dome-1x01-pilot',
@@ -122,7 +122,7 @@ describe('TvMaze mapper', () => {
             var result, episode;
 
             beforeEach(() => {
-                result = mapper.mapEpisodes(showInfo, data);
+                result = mapEpisodes(showInfo, data);
                 episode = result[0];
             });
 

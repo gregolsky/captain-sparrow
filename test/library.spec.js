@@ -1,7 +1,9 @@
+import Episode from 'captain-sparrow/tv/episode';
+import TvShowsLibrary from 'captain-sparrow/library';
+
 describe('TV shows library', function () {
 
-    var MockFs = require('q-io/fs-mock');
-    var mockFs = MockFs({
+    var mockFs = {
         'root': {
             'a': {
                 'b': {
@@ -12,24 +14,20 @@ describe('TV shows library', function () {
                 'Most.stupid.show.ever.s04e02.hdtv.txt': 'asdg'
             }
         }
-    });
+    };
 
-    var Episode = include('tv/episode');
+    useMockery(beforeEach, afterEach, () => ({
+        'fs': global.getFsMock(mockFs)
+    }));
 
-    var TvShowsLibrary = include('library');
-
-    it('initializes library from directory', (done) => {
-
-        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } }, mockFs);
-        library.initialize()
+    it('initializes library from directory', () => {
+        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } });
+        return library.initialize()
         .then(function () {
             should.exist(library.entries);
             should.exist(library.entries.length);
             library.entries.length.should.equal(2);
-            done();
-        })
-        .catch(done);
-
+        });
     });
 
     it('can check if episode is already in', function (done) {

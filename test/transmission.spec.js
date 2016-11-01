@@ -1,6 +1,6 @@
-describe('Transmission daemon client', function () {
+import TransmissionClient from 'captain-sparrow/transmission';
 
-    var TransmissionClient = include('transmission');
+describe('Transmission daemon client', function () {
 
     var settings = {
         transmission: {

@@ -11,26 +11,26 @@
   "scripts": {
     "test": "mocha",
     "lint": "eslint .",
-    "check": "eslint . && mocha"
+    "check": "eslint . && mocha",
+    "postinstall": "node -e \"var s='../lib/captain-sparrow',d='node_modules/captain-sparrow',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
   },
   "author": "Grzegorz Lachowski",
   "dependencies": {
-    "babel-core": "^6.2.1",
+    "babel-core": "^6.18.2",
     "babel-plugin-add-module-exports": "^0.1.1",
-    "babel-preset-es2015-node5": "^1.1.0",
+    "babel-preset-es2015-node6": "^0.3.0",
     "chalk": "^1.1.3",
     "cli": "^0.6.5",
     "expand-home-dir": "0.0.2",
     "ical-generator": "^0.1.10",
     "jaro-winkler": "^0.2.6",
     "lodash": "^3.10.1",
+    "mockery": "^2.0.0",
     "moment": "^2.8.4",
+    "promisify-function": "^1.3.2",
     "pushbullet": "^1.4.3",
-    "q": "^1.4.1",
-    "q-io": "^1.13.1",
     "qs": "^5.2.1",
-    "request": "^2.64.0",
-    "request-promise": "^4.1.1",
+    "request": "^2.78.0",
     "request-promise-native": "^1.0.3",
     "transmission": "^0.4.1",
     "verror": "^1.6.0",
@@ -40,11 +40,12 @@
   "devDependencies": {
     "babel-eslint": "^4.1.6",
     "chai": "^1.10.0",
-    "eslint": "^1.10.2",
+    "eslint": "^3.9.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.1",
-    "mocha": "^2.1.0",
+    "mocha": "^3.1.2",
+    "mock-fs": "^3.12.1",
     "sinon": "^1.12.2"
   },
   "engines": {

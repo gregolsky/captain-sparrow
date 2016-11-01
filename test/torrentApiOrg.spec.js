@@ -1,6 +1,6 @@
-describe('torrentapi.org client', function () {
+import TorrentApiOrg from 'captain-sparrow/torrentProvider/torrentApiOrg';
 
-    var TorrentApiOrg = include('torrentProvider/torrentApiOrg');
+describe('torrentapi.org client', function () {
 
     /* Integration test */
     it('finds some torrents, when asked for linux', function () {
@@ -14,8 +14,8 @@ describe('torrentapi.org client', function () {
             var entry = results[0];
 
             should.exist(entry);
-            should.exist(entry.filename);
-            should.exist(entry.download);
+            should.exist(entry.name);
+            should.exist(entry.torrentLink);
         });
     }, 10000);
 
