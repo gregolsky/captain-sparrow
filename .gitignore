@@ -28,3 +28,7 @@ reports
 
 **/*.swp
 **/*~
+
+#yarn
+yarn.lock
+.yarnclean
