@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 require('babel-core/register');
+require('longjohn');
 
 var cli = require('cli'),
-CaptainSparrow = require('../lib/captain-sparrow');
+CaptainSparrow = require('../lib/captain-sparrow').default;
 
 cli.parse({
     since: [ 's', 'date from, which search for episodes starts', 'string'],
@@ -14,6 +15,6 @@ cli.parse({
 
 cli.main(function (args, options) {
 
-    new CaptainSparrow(args, options).run().done();
+    new CaptainSparrow(args, options).run();
 
 });
