@@ -21,7 +21,7 @@
   "rules": {
       "semi": [ 2, "always" ],
       "one-var": 0,
-      "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+      "brace-style": [ 2, "1tbs"],
       "padded-blocks": 0,
       "indent": [2, 4],
       "template-curly-spacing": [2, "always"],
