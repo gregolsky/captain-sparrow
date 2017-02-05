@@ -3,7 +3,7 @@ import TorrentApiOrg from 'captain-sparrow/torrentProvider/torrentApiOrg';
 describe('torrentapi.org client', function () {
 
     /* Integration test */
-    it('finds some torrents, when asked for linux', function () {
+    it('finds some torrents', function () {
 
         var torrentProject = new TorrentApiOrg();
         return torrentProject.search('test')
