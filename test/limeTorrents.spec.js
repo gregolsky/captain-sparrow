@@ -4,6 +4,7 @@ describe('LimeTorrents client', function () {
 
     /* Integration test */
     it('finds some torrents, when asked for linux', function () {
+        this.timeout(10000);
 
         var torrent = new LimeTorrents();
         return torrent.search('linux')
