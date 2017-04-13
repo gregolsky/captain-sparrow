@@ -11,6 +11,7 @@ cli.parse({
     save: ['p', 'save torrent file under selected path', 'string'],
     index: ['i', 'result index', 'number'],
     show: ['n', 'show name', 'string'],
+    config: ['c', 'config file path', 'string']
 });
 
 cli.main(function (args, options) {
