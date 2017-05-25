@@ -1,8 +1,8 @@
-import sinon from 'sinon';
+const sinon = require('sinon');
 
 describe('Task factory', function () {
 
-    var fakeSettings = {
+    const fakeSettings = {
         trakt: {
             apiKey: '',
             username: ''
@@ -11,7 +11,7 @@ describe('Task factory', function () {
             apiKey: '',
             shows: [],
             cache: {
-                file: '',
+                file: 'test',
                 operations: [ 'search', 'showInfo', 'episodeList' ],
                 ttl: {
                     search: 30,
@@ -21,13 +21,13 @@ describe('Task factory', function () {
             }
         },
         transmission: {
-            host: 'localhost',
-            port: '9091'
+            host: 'host',
+            port: '9092'
         },
         tv: {
             searchSuffix: '',
             hoursAfterAirTime: 4,
-            libraryPath: '',
+            libraryPath: '.',
             downloadDirectory: ''
         },
         notifications: {
@@ -48,14 +48,18 @@ describe('Task factory', function () {
 
     beforeEach(function () {
         this.timeout(10000);
-        taskFactory = require('captain-sparrow/taskFactory')
+        taskFactory = require('captain-sparrow/taskFactory');
     });
 
     it('resolves dependencies for tv shows download task', function () {
         return taskFactory.resolve('tv', fakeSettings)
         .then(function (task) {
-            expect(task).to.not.be.undefined;
-            expect(task.execute).to.not.be.undefined;
+            expect(task).to.not.be.undefined();
+            expect(task.execute).to.not.be.undefined();
+            expect(task.settings.transmission.host)
+                .to.equal(fakeSettings.transmission.host);
+            expect(task.episodeDownloader.downloadClient.settings.host)
+                .to.equal(fakeSettings.transmission.host);
         });
     });
 

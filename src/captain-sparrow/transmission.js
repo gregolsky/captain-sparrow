@@ -5,6 +5,10 @@ import Transmission from 'transmission';
 export default class TransmissionClient {
 
     constructor (settings) {
+        if (!settings || !settings.host || !settings.port) {
+            throw new Error('Invalid transmission settings.');
+        }
+
         this.settings = settings;
     }
 
@@ -13,8 +17,7 @@ export default class TransmissionClient {
             try {
                 this.buildClient()
                     .get((err, arg) => err ? reject(err) : resolve(arg.torrents));
-            }
-            catch (err) {
+            } catch (err) {
                 reject(err);
             }
         });
@@ -36,22 +39,20 @@ export default class TransmissionClient {
                     url,
                     { 'download-dir': downloadDir },
                     (err, arg) => err ? reject(err) : resolve(arg));
-            }
-            catch (err) {
+            } catch (err) {
                 reject(err);
             }
         });
     };
 
     buildClient () {
-        return new Transmission(this.settings.transmission);
+        return new Transmission(this.settings);
     };
 
     contains (episode) {
         return this.list()
         .then(queue =>
-            queue.some(
-                entry => episode.isMatch(entry.name)));
+            queue.some(entry => episode.isMatch(entry.name)));
     };
 
 }

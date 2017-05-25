@@ -1,21 +1,18 @@
 #!/usr/bin/env node
 
-require('babel-core/register');
 require('longjohn');
 
-var cli = require('cli'),
-CaptainSparrow = require('../lib/captain-sparrow').default;
+const cli = require('cli');
+const CaptainSparrow = require('../lib/captain-sparrow');
 
 cli.parse({
-    since: [ 's', 'date from, which search for episodes starts', 'string'],
-    save: ['p', 'save torrent file under selected path', 'string'],
-    index: ['i', 'result index', 'number'],
-    show: ['n', 'show name', 'string'],
-    config: ['c', 'config file path', 'string']
+    since: [ 's', 'date from, which search for episodes starts', 'string' ],
+    save: [ 'p', 'save torrent file under selected path', 'string' ],
+    index: [ 'i', 'result index', 'number' ],
+    show: [ 'n', 'show name', 'string' ],
+    config: [ 'c', 'config file path', 'string' ]
 });
 
 cli.main(function (args, options) {
-
     new CaptainSparrow(args, options).run();
-
 });

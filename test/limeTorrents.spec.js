@@ -1,4 +1,4 @@
-import LimeTorrents from 'captain-sparrow/torrentProvider/limeTorrents';
+const LimeTorrents = require('captain-sparrow/torrentProvider/limeTorrents');
 
 describe('LimeTorrents client', function () {
 

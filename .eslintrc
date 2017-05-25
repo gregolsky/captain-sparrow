@@ -16,7 +16,8 @@
       "beforeEach": true,
       "afterEach": true,
       "should": true,
-      "expect": true
+      "expect": true,
+      "useMockery": true
   },
   "rules": {
       "semi": [ 2, "always" ],

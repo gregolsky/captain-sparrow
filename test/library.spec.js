@@ -1,5 +1,5 @@
-import Episode from 'captain-sparrow/tv/episode';
-import TvShowsLibrary from 'captain-sparrow/library';
+const Episode = require('captain-sparrow/tv/episode');
+const TvShowsLibrary = require('captain-sparrow/library');
 
 describe('TV shows library', function () {
 

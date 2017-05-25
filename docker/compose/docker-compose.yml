@@ -1,0 +1,28 @@
+version: "2"
+services:
+  captain-sparrow-cron:
+    container_name: captain-sparrow-cron
+    image: gregolsky/captain-sparrow:cron
+    volumes:
+      - ./secrets/captain-sparrow-config.json:/opt/captain-sparrow-config.json
+      - ./downloads:/downloads
+      - ./library:/library
+    depends_on:
+      - transmission
+    
+  transmission:
+    container_name: captain-sparrow-download
+    image: linuxserver/transmission
+    ports:
+      - 9091:9091
+      - 44441:44441
+      - 51413/udp
+    volumes:
+      - ./downloads:/downloads
+      - ./transmission:/config
+    environment:
+      - PGID=${PGID}
+      - PUID=${PUID}
+      - TZ='Europe/Warsaw'
+    env_file:
+      - secrets/transmission.env

@@ -25,6 +25,10 @@ build/Release
 node_modules
 reports
 
+docker/compose/downloads/*
+docker/compose/secrets
+
+lib
 
 **/*.swp
 **/*~

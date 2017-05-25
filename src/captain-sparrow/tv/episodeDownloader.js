@@ -37,7 +37,7 @@ export default class EpisodeDownloader {
                     throw new Error(episode.describe().bold.magenta + ' was not found.');
                 }
 
-                let downloadDir = path.join(this.settings.tv.downloadDirectory, episode.show);
+                let downloadDir = path.join(this.settings.tv.libraryPath, episode.show);
 
                 return this.downloadClient.addUrl(filteredTorrents[0].torrentLink, downloadDir);
             });

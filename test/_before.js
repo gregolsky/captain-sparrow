@@ -1,12 +1,11 @@
 'use strict';
 
-require('babel-core/register');
-
 const sinon = require('sinon');
 const mockery = require('mockery');
 const mockFs = require('mock-fs');
 
 var chai = require('chai');
+chai.use(require('dirty-chai'));
 chai.config.includeStack = true;
 
 global.expect = chai.expect;
@@ -19,9 +18,9 @@ global.getFsMock = function (fsStructure) {
 global.getLoggerMock = function () {
     return {
         error: sinon.spy(),
-        info: sinon.spy(),
+        info: sinon.spy()
     };
-}
+};
 
 global.useMockery = function (beforeEach, afterEach, createMocks) {
     let mocks;
