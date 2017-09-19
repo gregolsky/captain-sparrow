@@ -36,6 +36,7 @@ export default class TorrentProvider {
                     return this._serviceSearch(service, term);
                 })
                 .then(results => {
+                    results = this._verifyResults(results, term);
                     if (results && results.length) {
                         return results;
                     }
@@ -56,6 +57,21 @@ export default class TorrentProvider {
             service.search(term),
             timeout(30000)
         ]);
+    }
+
+    _verifyResults (results, term) {
+        if (!results || !results.length) {
+            return [];
+        }
+
+        const termTokens = term.split();
+        return results.filter(x => x.name && containsAllTokens(x.name, termTokens));
+
+        function containsAllTokens (name, termTokens) {
+            const nameLower = name.toLowerCase();
+            return termTokens.every(token =>
+                nameLower.indexOf(token.toLowerCase()) !== -1);
+        }
     }
 
 }

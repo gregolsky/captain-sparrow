@@ -9,7 +9,7 @@
     "captain-sparrow": "./bin/captain-sparrow"
   },
   "scripts": {
-    "test": "yarn run build && mocha",
+    "test": "npm run build && mocha",
     "test-debug": "mocha debug",
     "lint": "eslint .",
     "check": "eslint . && mocha",
