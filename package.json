@@ -4,21 +4,19 @@
   "description": "Check for shows and download them.",
   "repository": "https://github.com/gregolsky/captain-sparrow.git",
   "keywords": [],
-  "private": "true",
+  "private": false,
   "bin": {
     "captain-sparrow": "./bin/captain-sparrow"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "npm run build && mocha",
+    "test-debug": "mocha debug",
     "lint": "eslint .",
     "check": "eslint . && mocha",
-    "postinstall": "node -e \"var s='../lib/captain-sparrow',d='node_modules/captain-sparrow',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
+    "build": "rm -rf lib && babel src -d lib && node -e \"var s='../lib/captain-sparrow',d='node_modules/captain-sparrow',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
   },
   "author": "Grzegorz Lachowski",
   "dependencies": {
-    "babel-core": "^6.18.2",
-    "babel-plugin-add-module-exports": "^0.1.1",
-    "babel-preset-es2015-node6": "^0.3.0",
     "chalk": "^1.1.3",
     "cli": "^0.6.5",
     "expand-home-dir": "0.0.2",
@@ -33,18 +31,25 @@
     "qs": "^5.2.1",
     "request": "^2.78.0",
     "request-promise-native": "^1.0.3",
-    "transmission": "^0.4.1",
+    "transmission": "^0.4.9",
     "verror": "^1.6.0",
     "winston": "^0.8.3",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "babel-eslint": "^4.1.6",
-    "chai": "^1.10.0",
-    "eslint": "^3.9.1",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-plugin-promise": "^3.3.0",
-    "eslint-plugin-standard": "^2.0.1",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.18.2",
+    "babel-eslint": "6",
+    "babel-plugin-add-module-exports": "^0.1.1",
+    "babel-preset-es2015-node6": "^0.3.0",
+    "chai": "^4.0.1",
+    "dirty-chai": "^1.2.2",
+    "eslint": "3.x",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mocha": "^3.1.2",
     "mock-fs": "^3.12.1",
     "sinon": "^1.12.2"

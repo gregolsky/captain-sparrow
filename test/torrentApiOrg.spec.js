@@ -1,4 +1,4 @@
-import TorrentApiOrg from 'captain-sparrow/torrentProvider/torrentApiOrg';
+const TorrentApiOrg = require('captain-sparrow/torrentProvider/torrentApiOrg');
 
 describe('torrentapi.org client', function () {
 

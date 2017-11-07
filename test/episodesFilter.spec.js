@@ -1,5 +1,5 @@
-import EpisodeFilter from 'captain-sparrow/tv/episodeFilter';
-import moment from 'moment';
+const EpisodeFilter = require('captain-sparrow/tv/episodeFilter');
+const moment = require('moment');
 
 describe('Episode filter', function () {
 
@@ -8,10 +8,10 @@ describe('Episode filter', function () {
     };
 
     var createFakeWithContains = function ({
-        result,
+        result
     }) {
         return {
-            contains() {
+            contains( ) {
                 return Promise.resolve(result);
             }
         };
@@ -110,7 +110,6 @@ describe('Episode filter', function () {
         var filter = new EpisodeFilter(createSettings(0), fakeWithContains, createFakeWithContains(false, true), fakeDateService);
 
         var episodeData = {};
-
         filter.filter(episodeData)
         .then(function (result) {
             result.value.should.be.true();

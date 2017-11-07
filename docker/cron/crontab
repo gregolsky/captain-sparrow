@@ -1,0 +1,5 @@
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:/opt/vc/bin
+NODE_PATH="$NPM_PACKAGES/lib/node_modules"
+
+*/15 * * * * root /opt/captain-sparrow/bin/captain-sparrow -c /opt/captain-sparrow-config.json tv >> /var/log/cron.log 2>&1
+*/30 * * * * root /opt/captain-sparrow/bin/captain-sparrow -c /opt/captain-sparrow-config.json subs >> /var/log/cron.log 2>&1

@@ -24,13 +24,12 @@ export default class EpisodeFilter {
         ];
 
         return Promise.all(checks)
-        .then(() => ({ value: true }))
-        .catch(reason => {
-            if (reason instanceof Error) {
-                throw reason;
+        .then(results => {
+            if (results && results.every(x => x.value)) {
+                return { value: true };
             }
 
-            return { value: false, reason };
+            return results.find(x => !x.value);
         });
     }
 
@@ -57,7 +56,11 @@ export default class EpisodeFilter {
 
 function filterCheck(check, filterOutMsg) {
     return Promise.resolve(check())
-    .then(result => (!result ? Promise.reject(filterOutMsg) : Promise.resolve()))
+    .then(result => {
+      return result ?
+        { value: true } :
+        filteredOut(filterOutMsg);  
+    });
 }
 
 function filteredOut (reason) {

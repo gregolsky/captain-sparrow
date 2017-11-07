@@ -1,8 +1,8 @@
 'use strict';
 
-import moment from 'moment';
-import Episode from 'captain-sparrow/tv/episode';
-import { mapEpisodes } from 'captain-sparrow/tvmaze/mapper';
+const moment = require('moment');
+const Episode = require('captain-sparrow/tv/episode');
+const { mapEpisodes } = require('captain-sparrow/tvmaze/mapper');
 
 describe('TvMaze mapper', () => {
 
@@ -128,23 +128,23 @@ describe('TvMaze mapper', () => {
 
             it('is array of Episode', () => {
                 expect(result[0])
-                .to.be.an.instanceof(Episode);
+                    .to.be.an.instanceof(Episode);
             });
 
             it('all fields ok', () => {
                 expect(episode.show)
-                .to.equal('Under the Dome');
+                    .to.equal('Under the Dome');
                 expect(episode.number)
-                .to.equal(1);
+                    .to.equal(1);
                 expect(episode.getEpisodeNumber())
-                .to.equal('S01E01');
+                    .to.equal('S01E01');
                 expect(episode.title)
-                .to.equal('Pilot');
+                    .to.equal('Pilot');
 
                 var airtime = moment('2013-06-24T22:00:00-04:00')
-                .toDate();
+                    .toDate();
                 episode.airtime.toString()
-                .should.equal(airtime.toString());
+                    .should.equal(airtime.toString());
                 episode.runtime.should.equal(60);
             });
 

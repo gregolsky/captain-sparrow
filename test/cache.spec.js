@@ -1,12 +1,8 @@
-import sinon from 'sinon';
-
 describe('Cache', function () {
-
-        this.timeout(0);
     let Cache;
     let simpleCache, simpleService, simpleServiceCacheSettings;
 
-    useMockery(beforeEach, afterEach,() => ({
+    useMockery(beforeEach, afterEach, () => ({
         'fs': global.getFsMock({
             'root': {}
         }),
@@ -14,7 +10,7 @@ describe('Cache', function () {
     }));
 
     beforeEach(() => {
-        Cache = require('captain-sparrow/cache').default;
+        Cache = require('captain-sparrow/cache');
     });
 
     beforeEach(function () {

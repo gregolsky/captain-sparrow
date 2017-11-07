@@ -1,11 +1,11 @@
-import TorrentProvider from 'captain-sparrow/torrentProvider';
+const TorrentProvider = require('captain-sparrow/torrentProvider');
 
 describe('Torrent provider', function () {
 
     /* Integration test */
-    it.only('finds some torrents', function () {
+    it('finds some torrents', function () {
         this.timeout(60000);
-
+        
         var torrent = new TorrentProvider({
             searchServices: [ 'LimeTorrents', 'TorrentApiOrg' ]
         });
