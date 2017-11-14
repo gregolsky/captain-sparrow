@@ -1,9 +1,11 @@
 import LimeTorrents from './limeTorrents';
 import TorrentApiOrg from './torrentApiOrg';
+import Tpb from './tpb';
 import timeout from 'captain-sparrow/util/timeout';
 import logger from 'captain-sparrow/logger';
 
 const SERVICES = {
+    Tpb: new Tpb(),
     LimeTorrents: new LimeTorrents(),
     TorrentApiOrg: new TorrentApiOrg()
 };
