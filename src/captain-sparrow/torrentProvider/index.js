@@ -66,14 +66,15 @@ export default class TorrentProvider {
             return [];
         }
 
-        const termTokens = term.split();
+        const termTokens = term.split(' ').map(x => x.toLowerCase());
         return results.filter(x => x.name && containsAllTokens(x.name, termTokens));
 
         function containsAllTokens (name, termTokens) {
             const nameLower = name.toLowerCase();
-            return termTokens.every(token =>
-                nameLower.indexOf(token.toLowerCase()) !== -1);
+            const result = termTokens.every(token => nameLower.includes(token));
+            return result;
         }
+
     }
 
 }
