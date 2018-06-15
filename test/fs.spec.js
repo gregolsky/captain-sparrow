@@ -1,48 +1,30 @@
 
 describe('fs', () => {
 
-    let fs = require('captain-sparrow/fs');
+    let fs = require('../src/util/fs');
 
-    var mockFs = {
-        'root': {
-            'a': {
-                'b': {
-                    'c.txt': 'Content of a/b/c.txt',
-                    'fun.stuff.s01e01.mkv': 'asdg'
-                },
-                'Most.stupid.show.ever.s04e02.hdtv.mkv': 'asdg',
-                'Most.stupid.show.ever.s04e02.hdtv.txt': 'asdg'
-            }
-        }
-    };
+    it('walk() all', async function() {
+        const files = await fs.walk('./test/data/fswalk');
+        let entries = [
+            'test/data/fswalk/a',
+            'test/data/fswalk/a/Most.stupid.show.ever.s04e02.hdtv.mkv',
+            'test/data/fswalk/a/Most.stupid.show.ever.s04e02.hdtv.txt',
+            'test/data/fswalk/a/b',
+            'test/data/fswalk/a/b/c.txt',
+            'test/data/fswalk/a/b/fun.stuff.s01e01.mkv'
+        ];
 
-    useMockery(beforeEach, afterEach, () => ({
-        'fs': global.getFsMock(mockFs)
-    }))
-
-    it('walk() all', () => {
-        return fs.walk('root')
-        .then(files => {
-
-            let entries = [ 'root/a',
-              'root/a/Most.stupid.show.ever.s04e02.hdtv.mkv',
-              'root/a/Most.stupid.show.ever.s04e02.hdtv.txt',
-              'root/a/b',
-              'root/a/b/c.txt',
-              'root/a/b/fun.stuff.s01e01.mkv' ];
-
-              entries.forEach(entry => {
-                 expect(files.indexOf(entry)).to.not.equal(-1);
-              });
+        entries.forEach(entry => {
+            expect(files.indexOf(entry)).to.not.equal(-1);
         });
     });
 
     it('walk() txt', () => {
         let txtRx = /\.txt/;
-        return fs.walk('root', (fname, stats) => txtRx.test(fname))
-        .then(files => {
-            expect(files.length).to.be.equal(2);
-        });
+        return fs.walk('test/data/fswalk', (fname, stats) => txtRx.test(fname))
+            .then(files => {
+                expect(files.length).to.be.equal(2);
+            });
     });
 
 });

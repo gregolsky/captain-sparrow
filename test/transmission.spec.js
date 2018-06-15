@@ -1,6 +1,6 @@
-const TransmissionClient = require('captain-sparrow/transmission');
+const TransmissionClient = require('../src/transmission');
 
-describe('Transmission daemon client', function () {
+describe('Transmission daemon client', function() {
 
     var settings = {
         transmission: {
@@ -9,7 +9,7 @@ describe('Transmission daemon client', function () {
         }
     };
 
-    it('passes settings properly', function () {
+    it('passes settings properly', function() {
         var client = new TransmissionClient(settings.transmission);
         expect(client.settings).to.be.ok();
         expect(client.settings.host).to.be.equal(settings.transmission.host);
@@ -17,12 +17,12 @@ describe('Transmission daemon client', function () {
     });
 
     /* Integration test */
-    xit('lists torrents in the queue', function (done) {
+    xit('lists torrents in the queue', function(done) {
 
         var client = new TransmissionClient(settings.transmission);
 
         client.list()
-            .then(function (queue) {
+            .then(function(queue) {
 
                 expect(queue).toBeDefined();
                 expect(queue.length).toBe(1);
@@ -32,7 +32,7 @@ describe('Transmission daemon client', function () {
                 expect(torrent.downloadDir).toBeDefined();
 
                 done();
-            }, function (err) {
+            }, function(err) {
                 console.error(err);
                 done();
             });
@@ -40,7 +40,7 @@ describe('Transmission daemon client', function () {
     });
 
     /* Integration test */
-    xit('adds a torrent via link to the queue', function (done) {
+    xit('adds a torrent via link to the queue', function(done) {
         var client = new TransmissionClient(settings.transmission);
         var link = 'http://releases.ubuntu.com/14.10/ubuntu-14.10-desktop-amd64.iso.torrent';
         var addOptions = {
@@ -48,7 +48,7 @@ describe('Transmission daemon client', function () {
         };
 
         client.addUrl(link, addOptions)
-            .then(function (arg) {
+            .then(function(arg) {
                 expect(arg.id).toBeDefined();
                 expect(arg.hashString).toBeDefined();
                 expect(arg.name).toBeDefined();

@@ -1,6 +1,7 @@
 const sinon = require('sinon');
+const rewire = require('rewire');
 
-describe('Task factory', function () {
+describe('Task factory', function() {
 
     const fakeSettings = {
         trakt: {
@@ -39,38 +40,33 @@ describe('Task factory', function () {
     };
 
     let taskFactory;
+    let revertTaskFactory;
 
-    useMockery(beforeEach, afterEach, () => ({
-        'captain-sparrow/cache': function () {
+    beforeEach(function() {
+        taskFactory = rewire('../src/taskFactory');
+        revertTaskFactory = taskFactory.__set__('Cache', function() {
             this.attach = sinon.spy();
-        }
-    }));
-
-    beforeEach(function () {
-        this.timeout(10000);
-        taskFactory = require('captain-sparrow/taskFactory');
-    });
-
-    it('resolves dependencies for tv shows download task', function () {
-        return taskFactory.resolve('tv', fakeSettings)
-        .then(function (task) {
-            expect(task).to.not.be.undefined();
-            expect(task.execute).to.not.be.undefined();
-            expect(task.settings.transmission.host)
-                .to.equal(fakeSettings.transmission.host);
-            expect(task.episodeDownloader.downloadClient.settings.host)
-                .to.equal(fakeSettings.transmission.host);
         });
     });
 
-    it('resolves dependencies for subs task', function () {
+    afterEach(function() {
+        revertTaskFactory();
+    });
 
-        return taskFactory.resolve('subs', fakeSettings)
-        .then(function (task) {
-            expect(task).to.not.be.undefined;
-            expect(task.execute).to.not.be.undefined;
-        });
+    it('resolves dependencies for tv shows download task', async function() {
+        const task = await taskFactory.resolve('tv', fakeSettings);
+        expect(task).to.not.be.undefined();
+        expect(task.execute).to.not.be.undefined();
+        expect(task.settings.transmission.host)
+            .to.equal(fakeSettings.transmission.host);
+        expect(task.episodeDownloader.downloadClient.settings.host)
+            .to.equal(fakeSettings.transmission.host);
+    });
 
+    it('resolves dependencies for subs task', async function() {
+        const task = await taskFactory.resolve('subs', fakeSettings);
+        expect(task).to.not.be.undefined();
+        expect(task.execute).to.not.be.undefined();
     });
 
 });

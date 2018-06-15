@@ -1,8 +1,8 @@
 'use strict';
 
 const moment = require('moment');
-const Episode = require('captain-sparrow/tv/episode');
-const { mapEpisodes } = require('captain-sparrow/tvmaze/mapper');
+const Episode = require('../src/tv/episode');
+const { mapEpisodes } = require('../src/tvmaze/mapper');
 
 describe('TvMaze mapper', () => {
 

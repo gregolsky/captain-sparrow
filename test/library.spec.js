@@ -1,64 +1,41 @@
-const Episode = require('captain-sparrow/tv/episode');
-const TvShowsLibrary = require('captain-sparrow/library');
+const Episode = require('../src/tv/episode');
+const TvShowsLibrary = require('../src/library');
+const path = require('path');
 
-describe('TV shows library', function () {
+describe('TV shows library', function() {
 
-    var mockFs = {
-        'root': {
-            'a': {
-                'b': {
-                    'c.txt': 'Content of a/b/c.txt',
-                    'fun.stuff.s01e01.mkv': 'asdg'
-                },
-                'Most.stupid.show.ever.s04e02.hdtv.mkv': 'asdg',
-                'Most.stupid.show.ever.s04e02.hdtv.txt': 'asdg'
-            }
-        }
-    };
+    const libraryPath = path.join(__dirname, 'data/library');
 
-    useMockery(beforeEach, afterEach, () => ({
-        'fs': global.getFsMock(mockFs)
-    }));
-
-    it('initializes library from directory', () => {
-        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } });
-        return library.initialize()
-        .then(function () {
-            should.exist(library.entries);
-            should.exist(library.entries.length);
-            library.entries.length.should.equal(2);
-        });
+    it('initializes library from directory', async () => {
+        var library = new TvShowsLibrary({ tv: { libraryPath } });
+        await library.initialize();
+        should.exist(library.entries);
+        should.exist(library.entries.length);
+        library.entries.length.should.equal(2);
     });
 
-    it('can check if episode is already in', function (done) {
+    it('can check if episode is already in', async () => {
         // function Episode(show, number, season, title, airtime, runtime) {
 
         var episode = new Episode('Most stupid show  ever', '02', '04', '', null, null);
-        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } }, mockFs);
+        var library = new TvShowsLibrary({ tv: { libraryPath } });
 
-        library.initialize()
-        .then(function () {
-            var episodeInLibrary = library.contains(episode);
-            episodeInLibrary.should.be.true();
-            done();
-        })
-        .catch(done);
+        await library.initialize();
+        var episodeInLibrary = library.contains(episode);
+        episodeInLibrary.should.be.true();
     });
 
-    it('stupid show has subtitles', (done) => {
+    it('stupid show has subtitles', async () => {
 
-        var library = new TvShowsLibrary({ tv: { libraryPath: 'root/a' } }, mockFs);
+        const library = new TvShowsLibrary({ tv: { libraryPath } });
 
-        library.initialize()
-        .then(() => {
-            expect(library.entries[0].subsPath).to.exist();
-            library.entries[0].subsPath.should.equal('root/a/Most.stupid.show.ever.s04e02.hdtv.txt');
-            library.entries[0].hasSubtitles.should.be.true();
+        await library.initialize();
+        expect(library.entries[0].subsPath).to.exist();
+        library.entries[0].subsPath.should.equal(
+            path.join(__dirname, 'data/library/a/Most.stupid.show.ever.s04e02.hdtv.txt'));
+        library.entries[0].hasSubtitles.should.be.true();
 
-            library.entries[1].hasSubtitles.should.be.false();
-            done();
-        })
-        .catch(done);
+        library.entries[1].hasSubtitles.should.be.false();
     });
 
 });

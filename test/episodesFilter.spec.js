@@ -1,17 +1,17 @@
-const EpisodeFilter = require('captain-sparrow/tv/episodeFilter');
+const EpisodeFilter = require('../src/tv/episodeFilter');
 const moment = require('moment');
 
-describe('Episode filter', function () {
+describe('Episode filter', function() {
 
-    var createSettings = function (hoursAfterAirTime) {
+    var createSettings = function(hoursAfterAirTime) {
         return { tv: { hoursAfterAirTime: hoursAfterAirTime } };
     };
 
-    var createFakeWithContains = function ({
+    var createFakeWithContains = function({
         result
     }) {
         return {
-            contains( ) {
+            contains() {
                 return Promise.resolve(result);
             }
         };
@@ -21,19 +21,23 @@ describe('Episode filter', function () {
     var episodeData;
     var fakeDateService;
 
-    beforeEach(function () {
+    beforeEach(function() {
         date = new Date();
         episodeData = {
             airtime: date
         };
 
         fakeDateService = {
-            currentDate: function () { return date; },
-            currentDateTime: function () { return date; }
+            currentDate: function() {
+                return date;
+            },
+            currentDateTime: function() {
+                return date;
+            }
         };
     });
 
-    it('filters out episode, when library contains', function () {
+    it('filters out episode, when library contains', function() {
 
         var filter = new EpisodeFilter(
             createSettings(0),
@@ -42,13 +46,13 @@ describe('Episode filter', function () {
             fakeDateService);
 
         return filter.filter(episodeData)
-        .then(function (result) {
-            result.value.should.be.false();
-            result.reason.should.equal('already in library');
-        });
+            .then(function(result) {
+                result.value.should.be.false();
+                result.reason.should.equal('already in library');
+            });
     });
 
-    it('filters out episode, when download queue contains', function () {
+    it('filters out episode, when download queue contains', function() {
         var filter = new EpisodeFilter(
             createSettings(0),
             createFakeWithContains({
@@ -60,15 +64,15 @@ describe('Episode filter', function () {
             fakeDateService);
 
         return filter.filter(episodeData)
-        .then(function (result) {
-            should.exist(result.value);
-            should.exist(result.reason);
-            result.value.should.be.false();
-            result.reason.should.equal('already queued');
-        });
+            .then(function(result) {
+                should.exist(result.value);
+                should.exist(result.reason);
+                result.value.should.be.false();
+                result.reason.should.equal('already queued');
+            });
     });
 
-    it('filters out episode, when it is surely too early to download', function () {
+    it('filters out episode, when it is surely too early to download', function() {
         var filter = new EpisodeFilter(
             createSettings(1),
             createFakeWithContains({ result: false }),
@@ -76,14 +80,16 @@ describe('Episode filter', function () {
             fakeDateService);
 
         return filter.filter(episodeData)
-        .then(function (result) {
-            result.value.should.be.false();
-        });
+            .then(function(result) {
+                result.value.should.be.false();
+            });
     });
 
-    it('does not filter episode out, when all is ok', function () {
+    it('does not filter episode out, when all is ok', function() {
         var dateService = {
-            currentDateTime: function () { return moment(date).add(1, 'h').toDate(); }
+            currentDateTime: function() {
+                return moment(date).add(1, 'h').toDate();
+            }
         };
 
         var filter = new EpisodeFilter(
@@ -95,15 +101,15 @@ describe('Episode filter', function () {
         var episodeData = { airtime: date };
 
         return filter.filter(episodeData)
-        .then(function (result) {
-            result.value.should.be.true();
-            should.not.exist(result.reason);
-        });
+            .then(function(result) {
+                result.value.should.be.true();
+                should.not.exist(result.reason);
+            });
     });
 
-    it('throws errors, when something goes wrong inside filtering methods', function (done) {
+    it('throws errors, when something goes wrong inside filtering methods', function(done) {
         var fakeWithContains = {
-            contains: function () {
+            contains: function() {
                 return Promise.reject(new Error('Surprise!'));
             }
         };
@@ -111,14 +117,14 @@ describe('Episode filter', function () {
 
         var episodeData = {};
         filter.filter(episodeData)
-        .then(function (result) {
-            result.value.should.be.true();
-            should.not.exist(result.reason);
-            done();
-        }, function (error) {
-            error.message.should.equal('Surprise!');
-            done();
-        });
+            .then(function(result) {
+                result.value.should.be.true();
+                should.not.exist(result.reason);
+                done();
+            }, function(error) {
+                error.message.should.equal('Surprise!');
+                done();
+            });
 
     });
 });
