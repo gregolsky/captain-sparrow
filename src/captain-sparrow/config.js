@@ -5,23 +5,19 @@ import * as fs from 'captain-sparrow/fs';
 var expandUserDir = require('expand-home-dir');
 const CONFIG_FILE_PATH = expandUserDir('~/.captain-sparrow');
 
-export function loadOrCreate (configFilePath) {
+export async function loadOrCreate (configFilePath) {
     configFilePath = configFilePath || CONFIG_FILE_PATH;
 
-    return fs.exists(configFilePath)
-    .then(fileExists => {
-        if (!fileExists) {
-            return fs.writeFile(
+    const fileExists = await fs.exists(configFilePath)
+    if (!fileExists) {
+        await fs.writeFile(
                 configFilePath,
-                JSON.stringify(defaults(), null, 2))
-            .then(() => {
-                throw new Error('Configuration is incomplete. Fill in your ~/.captain-sparrow.');
-            });
-        }
+                JSON.stringify(defaults(), null, 2));
+        throw new Error('Configuration is incomplete. Fill in your ~/.captain-sparrow.');
+    }
 
-        return fs.readFile(configFilePath, 'utf8');
-    })
-    .then(json => JSON.parse(json));
+    const json = await fs.readFile(configFilePath, 'utf8');
+    return JSON.parse(json);
 }
 
 function defaults () {

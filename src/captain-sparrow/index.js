@@ -2,8 +2,7 @@
 
 import moment from 'moment';
 
-import enhancePromise from 'captain-sparrow/util/promise';
-enhancePromise();
+import 'captain-sparrow/util/promise';
 
 import * as taskFactory from 'captain-sparrow/taskFactory';
 import * as fs from 'captain-sparrow/fs';
@@ -17,20 +16,19 @@ export default class CaptainSparrow {
         this.options = options;
     }
 
-    run () {
+    async run () {
 
         validateArguments(this.args);
 
-        return loadOrCreateConfig(this.options.config)
-        .then((configuration) => {
+        try {
+            const configuration = await loadOrCreateConfig(this.options.config);
             var settings = modifyConfigWithCliOptions(configuration, this.options, this.args);
-            return taskFactory.resolve(this.args[0], settings);
-        })
-        .then((task) => task.execute())
-        .catch(err => {
+            const task = await taskFactory.resolve(this.args[0], settings);
+            await task.execute();
+        } catch (err) {
             logger.error(`Unhandled application error occurred: ${ err.stack }`);
             process.exit(-1);
-        });
+        }
     };
 }
 

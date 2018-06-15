@@ -30,7 +30,7 @@ function getTorrentProvider (settings) {
     return new TorrentProvider(settings);
 }
 
-export function resolve (taskName, settings) {
+export async function resolve (taskName, settings) {
     if (taskName === 'tv') {
         return resolveTvShowsDownload(settings);
     }
@@ -50,7 +50,7 @@ export function resolve (taskName, settings) {
     throw new Error('Not supported task - ' + taskName + '.');
 }
 
-function resolveSubsDownload (settings) {
+async function resolveSubsDownload (settings) {
     let library = new TvLibrary(settings);
     let downloader = new SubtitlesDownloader(settings, library, new Notifications(settings));
     return library.initialize()
@@ -61,63 +61,58 @@ function resolveSubsDownload (settings) {
     }));
 }
 
-function resolveTvShowsDownload (settings) {
+async function resolveTvShowsDownload (settings) {
     let tvmaze = new TvMaze();
     let cache = new Cache(dateService);
     let library = new TvLibrary(settings);
 
-    return Promise.all([
+    await Promise.all([
         cache.attach(tvmaze, settings.tvmaze.cache),
         library.initialize()
-    ])
-    .then(function () {
-        let episodeQueries = new EpisodeQueries(cache, dateService);
-        let episodesProvider = new EpisodesProvider(settings.shows, settings.tv.episodesSince, episodeQueries, dateService);
+    ]);
 
-        let transmissionClient = new TransmissionClient(settings.transmission);
-        let torrentSearch = getTorrentProvider(settings);
+    let episodeQueries = new EpisodeQueries(cache, dateService);
+    let episodesProvider = new EpisodesProvider(settings.shows, settings.tv.episodesSince, episodeQueries, dateService);
 
-        let episodeFilter = new EpisodeFilter(settings, transmissionClient, library, dateService);
-        let searchTermFormatter = new SearchTermFormatter(settings);
+    let transmissionClient = new TransmissionClient(settings.transmission);
+    let torrentSearch = getTorrentProvider(settings);
 
-        let episodeDownloader = new EpisodeDownloader(
-            settings,
-            transmissionClient,
-            torrentSearch,
-            episodeFilter, {
-                filter: (a) => true
-            }, // TODO torrent filter
-            searchTermFormatter);
+    let episodeFilter = new EpisodeFilter(settings, transmissionClient, library, dateService);
+    let searchTermFormatter = new SearchTermFormatter(settings);
 
-        let task = new TvShowsDownload(settings, episodesProvider, episodeDownloader);
-        task.onTaskEnd(() => cache.save());
+    let episodeDownloader = new EpisodeDownloader(
+        settings,
+        transmissionClient,
+        torrentSearch,
+        episodeFilter, {
+            filter: (a) => true
+        }, // TODO torrent filter
+        searchTermFormatter);
 
-        return task;
-    });
+    let task = new TvShowsDownload(settings, episodesProvider, episodeDownloader);
+    task.onTaskEnd(() => cache.save());
 
+    return task;
 }
 
-function resolveTorrentSearch (settings) {
+async function resolveTorrentSearch (settings) {
     let torrentSearch = getTorrentProvider(settings);
     let fileDownloader = new FileDownloader();
     return Promise.resolve(new TorrentSearch(settings, torrentSearch, fileDownloader));
 }
 
-function resolveCalendarFeed (settings) {
+async function resolveCalendarFeed (settings) {
     let tvmaze = new TvMaze();
     let cache = new Cache(dateService);
-    return cache.attach(tvmaze, settings.tvmaze.cache)
-    .then(function () {
-        let episodeQueries = new EpisodeQueries(cache, dateService);
-        let episodesProvider = new FutureEpisodesProvider(settings.shows, episodeQueries, dateService);
-        let episodesExporter = new EpisodesExporter(settings.calendar.file);
+    await cache.attach(tvmaze, settings.tvmaze.cache)
+    let episodeQueries = new EpisodeQueries(cache, dateService);
+    let episodesProvider = new FutureEpisodesProvider(settings.shows, episodeQueries, dateService);
+    let episodesExporter = new EpisodesExporter(settings.calendar.file);
 
-        let task = new CalendarFeed(episodesProvider, episodesExporter);
-        task.onTaskEnd(function () {
-            return cache.save();
-        });
-
-        return task;
+    let task = new CalendarFeed(episodesProvider, episodesExporter);
+    task.onTaskEnd(function () {
+        return cache.save();
     });
 
+    return task;
 }

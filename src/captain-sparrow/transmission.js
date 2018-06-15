@@ -12,11 +12,13 @@ export default class TransmissionClient {
         this.settings = settings;
     }
 
-    list () {
+    async list () {
         return new Promise((resolve, reject) => {
             try {
                 this.buildClient()
-                    .get((err, arg) => err ? reject(err) : resolve(arg.torrents));
+                    .get((err, arg) => err 
+                        ? reject(err) 
+                        : resolve(arg.torrents));
             } catch (err) {
                 reject(err);
             }
@@ -49,10 +51,9 @@ export default class TransmissionClient {
         return new Transmission(this.settings);
     };
 
-    contains (episode) {
-        return this.list()
-        .then(queue =>
-            queue.some(entry => episode.isMatch(entry.name)));
+    async contains (episode) {
+        const queue = await this.list();
+        return queue.some(entry => episode.isMatch(entry.name));
     };
 
 }

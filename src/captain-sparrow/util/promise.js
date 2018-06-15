@@ -1,5 +1,7 @@
 'use strict';
 
+enhancePromisesWithQMethods();
+
 export default function enhancePromisesWithQMethods () {
     Promise.when = when;
     Promise.allSettled = allSettled;
