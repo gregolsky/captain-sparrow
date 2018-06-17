@@ -41,5 +41,5 @@ global.useMockery = function (beforeEach, afterEach, createMocks) {
     afterEach(() => {
         mockery.deregisterAll();
         mockery.disable();
-    })
-}
+    });
+};
