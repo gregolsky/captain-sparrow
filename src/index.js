@@ -33,7 +33,8 @@ class CaptainSparrow {
 
 function validateArguments(args) {
     if (!args.length) {
-        throw new Error('Provide a task name as first argument: [tv|search]');
+        console.error('Provide a task name as first argument: [tv|search|subs]');
+        process.exit(1);
     }
 }
 
