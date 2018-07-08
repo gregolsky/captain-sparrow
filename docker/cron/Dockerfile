@@ -10,8 +10,7 @@ RUN apt-get update \
     && mv captain-sparrow-docker captain-sparrow \
     && rm captain-sparrow.zip \
     && cd captain-sparrow \
-    && npm install \
-    && npm run build
+    && npm install 
 
 ADD crontab /etc/cron.d/captain-sparrow
 RUN chmod 0644 /etc/cron.d/captain-sparrow \

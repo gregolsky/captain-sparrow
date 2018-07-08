@@ -10,12 +10,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-debug": "mocha debug",
     "lint": "eslint .",
-    "check": "eslint . && mocha",
-    "build": "rm -rf lib && node -e \"var s='../src/captain-sparrow',d='node_modules/captain-sparrow',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\"",
-    "test-win": "mocha",
-    "build-win": "babel src -d lib; node -e \"var s='../lib/captain-sparrow',d='node_modules/captain-sparrow',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
+    "check": "eslint . && mocha"
   },
   "author": "Grzegorz Lachowski",
   "dependencies": {
