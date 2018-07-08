@@ -2,7 +2,7 @@
 
 enhancePromisesWithQMethods();
 
-export default function enhancePromisesWithQMethods() {
+function enhancePromisesWithQMethods() {
     Promise.when = when;
     Promise.allSettled = allSettled;
     Promise.prototype.finally = _finally;

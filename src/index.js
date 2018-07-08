@@ -8,7 +8,7 @@ const taskFactory = require('./taskFactory');
 const loadOrCreateConfig = require('./config').loadOrCreate;
 const logger = require('./logger');
 
-export default class CaptainSparrow {
+class CaptainSparrow {
 
     constructor(args, options) {
         this.args = args;
@@ -66,3 +66,5 @@ function modifyConfigWithCliOptions(config, options, args) {
 
     return config;
 }
+
+module.exports = CaptainSparrow;

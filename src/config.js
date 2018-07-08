@@ -1,27 +1,22 @@
 'use strict';
 
-const fs = require('fs');
-const { exists } = require('../util/fs');
-const { promisify } = require('util');
-
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
+const { exists, readFileAsync, writeFileAsync } = require('./util/fs');
 
 var expandUserDir = require('expand-home-dir');
 const CONFIG_FILE_PATH = expandUserDir('~/.captain-sparrow');
 
-export async function loadOrCreate(configFilePath) {
+async function loadOrCreate(configFilePath) {
     configFilePath = configFilePath || CONFIG_FILE_PATH;
 
     const fileExists = await exists(configFilePath);
     if (!fileExists) {
-        await writeFile(
+        await writeFileAsync(
             configFilePath,
             JSON.stringify(defaults(), null, 2));
         throw new Error('Configuration is incomplete. Fill in your ~/.captain-sparrow.');
     }
 
-    const json = await readFile(configFilePath, 'utf8');
+    const json = await readFileAsync(configFilePath, 'utf8');
     return JSON.parse(json);
 }
 
@@ -64,3 +59,5 @@ function defaults() {
         }
     };
 }
+
+module.exports = { loadOrCreate };

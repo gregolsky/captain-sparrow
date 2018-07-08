@@ -3,7 +3,7 @@
 require('longjohn');
 
 const cli = require('cli');
-const CaptainSparrow = require('../src/captain-sparrow');
+const CaptainSparrow = require('../src');
 
 cli.parse({
     since: [ 's', 'date from, which search for episodes starts', 'string' ],
