@@ -1,6 +1,6 @@
 'use strict';
 
-const { exists, readFileAsync, writeFileAsync } = require('./util/fs');
+const { existsAsync, readFileAsync, writeFileAsync } = require('./util/fs');
 
 var expandUserDir = require('expand-home-dir');
 const CONFIG_FILE_PATH = expandUserDir('~/.captain-sparrow');
@@ -8,7 +8,7 @@ const CONFIG_FILE_PATH = expandUserDir('~/.captain-sparrow');
 async function loadOrCreate(configFilePath) {
     configFilePath = configFilePath || CONFIG_FILE_PATH;
 
-    const fileExists = await exists(configFilePath);
+    const fileExists = await existsAsync(configFilePath);
     if (!fileExists) {
         await writeFileAsync(
             configFilePath,
