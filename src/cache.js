@@ -18,7 +18,7 @@ class CachingServiceWrapper {
     async load() {
         let data;
         try {
-            await fs.readFileAsync(this.cacheFilePath, { encoding: 'utf8' });
+            data = await fs.readFileAsync(this.cacheFilePath, { encoding: 'utf8' });
         } catch (err) {
             logger.error(err);
             logger.info('Assuming new cache.');
