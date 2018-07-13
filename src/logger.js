@@ -6,14 +6,14 @@ configureDefaults();
 
 function getDefaultLogger() {
     const format = winston.format;
-    const formatAlignedWithColorsAndTime = format.combine(
+    const formatInstance = format.combine(
         format.timestamp(),
         format.align(),
         format.printf(info => `${ info.timestamp } ${ info.level }: ${ info.message }`));
 
     return winston.createLogger({
-        level: 'info',
-        format: formatAlignedWithColorsAndTime,
+        level: 'debug',
+        format: formatInstance,
         transports: [
             new winston.transports.Console()
         ]
