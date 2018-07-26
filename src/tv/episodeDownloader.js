@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const chalk = require('chalk');
 
 class EpisodeDownloader {
 
@@ -20,9 +21,12 @@ class EpisodeDownloader {
     }
 
     async download(episode) {
-        const includeEpisode = await this.episodeFilter.filter(episode)
+        if (!episode) {
+            throw new Error('Episode instance argument is mandatory.');
+        }
+        const includeEpisode = await this.episodeFilter.filter(episode);
         if (!includeEpisode.value) {
-            throw new Error(episode.describe().bold.magenta + ' is filtered out: ' + includeEpisode.reason + '.');
+            throw new Error(chalk.magenta.bold(episode.describe()) + ' is filtered out: ' + includeEpisode.reason + '.');
         }
 
         let term = this.searchTermFormatter.formatSearchTerm(episode);
@@ -30,7 +34,7 @@ class EpisodeDownloader {
         let filteredTorrents = torrents.filter(torrent => this.torrentFilter.filter(torrent));
 
         if (!filteredTorrents.length) {
-            throw new Error(episode.describe().bold.magenta + ' was not found.');
+            throw new Error(chalk.magenta.bold(episode.describe()) + ' was not found.');
         }
 
         let downloadDir = path.join(this.settings.tv.libraryPath, episode.show);
