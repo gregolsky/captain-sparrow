@@ -1,6 +1,10 @@
+const stream = require('readable-stream');
 const moment = require('moment');
 const chalk = require('chalk');
+const util = require('util');
 const logger = require('../logger');
+
+const streamFinished = util.promisify(stream.finished);
 
 class TvShowsDownload {
 
@@ -13,16 +17,27 @@ class TvShowsDownload {
     async execute() {
         this.printInfo();
 
+        const episodesStream = this.episodesProvider.getEpisodes();
+
+        let gotEpisodes = false;
+        episodesStream.once('data', () => (gotEpisodes = true));
+
+        episodesStream.on('data', (episode) => {
+            this.episodeDownloader.download(episode)
+                .then(() => logger.info(chalk.bold.magenta(episode.describe()) + ': OK'))
+                .catch(err => logger.error(err && err.stack ? err.stack : err, episode));
+        });
+
+        episodesStream.on('error',
+            err => logger.error(`Episodes provider stream error: ${ err.toString() }`));
+
         try {
-            const episodes = await this.episodesProvider.getEpisodes();
-
-            if (!episodes.length) {
+            await streamFinished(episodesStream);
+            if (!gotEpisodes) {
                 logger.info('No episodes in the selected timespan');
-                return;
             }
-
-            const results = await this.downloadEpisodes(episodes);
-            return this.describeResults(episodes, results);
+        } catch (err) {
+            this.logger(`Error processing the episodes stream: ${ err.toString() }`);
         } finally {
             if (this.onEnd) {
                 await this.onEnd();
@@ -40,34 +55,6 @@ class TvShowsDownload {
         if (this.settings.shows && this.settings.shows.length) {
             logger.debug(`for show ${ this.settings.shows.join(', ') }`);
         }
-    }
-
-    downloadEpisodes(episodes) {
-        var dlPromises = episodes.map(episode =>
-            this.episodeDownloader.download(episode)
-                .then(result => {
-                    return { state: 'fulfilled' };
-                })
-                .catch(reason => {
-                    return { state: 'rejected', reason };
-                }));
-
-        return Promise.all(dlPromises);
-    }
-
-    describeResults(episodes, results) {
-        results.forEach((result, i) => {
-            if (result.state === 'fulfilled') {
-                logger.info(chalk.bold.magenta(episodes[i].describe()) + ': OK');
-            } else {
-                var { reason } = result;
-                if (reason.stack) {
-                    logger.error(reason.stack, episodes[i]);
-                } else {
-                    logger.error(reason);
-                }
-            }
-        });
     }
 
     onTaskEnd(fun) {
