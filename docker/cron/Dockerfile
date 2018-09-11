@@ -1,5 +1,5 @@
 #FROM resin/raspberrypi-node:latest
-FROM node
+FROM node:8.11
 
 ADD https://github.com/gregolsky/captain-sparrow/archive/docker.zip /opt/captain-sparrow.zip
 
