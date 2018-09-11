@@ -1,7 +1,7 @@
 'use strict';
 
 const moment = require('moment');
-const EpisodeProviderStream = require('./episodeProviderStream');
+const logger = require('../logger');
 
 class CurrentEpisodesProvider {
 
@@ -16,14 +16,29 @@ class CurrentEpisodesProvider {
         var yesterday = moment(this.dateService.currentDate()).add(-1, 'd').toDate();
         var since = this.episodesSinceDate || yesterday;
 
-        const query = () => this.showsNames
-            .map(name => {
-                const promise = this.episodeQueries.getEpisodesByShowNameForTimeframe(
-                    name, since, this.dateService.currentDateTime());
-                return { name, promise };
-            });
+        var episodesPromises = this.showsNames.map(name =>
+            this.episodeQueries.getEpisodesByShowNameForTimeframe(name, since, this.dateService.currentDateTime()));
 
-        return new EpisodeProviderStream(query);
+        return Promise.allSettled(episodesPromises)
+            .then(results => {
+                var allEpisodes = [];
+
+                results.forEach(({ state, value, reason }, i) => {
+                    if (state === 'fulfilled') {
+                        if (!value.length) {
+                            return;
+                        }
+
+                        logger.info(`${ value.length } episodes found for ${ this.showsNames[i] }.`);
+                        allEpisodes = allEpisodes.concat(value);
+                    } else {
+                        let reason = reason.stack || reason;
+                        logger.error(this.showsNames[i] + '\n' + reason);
+                    }
+                });
+
+                return allEpisodes;
+            });
     }
 
 }
