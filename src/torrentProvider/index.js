@@ -26,40 +26,37 @@ class TorrentProvider {
             }, []);
     }
 
-    search(term) {
+    async search(term) {
         logger.info(`Searching for '${ term }'...`);
 
         let allErrors = [];
-        const searchAttempts = this.providers
-            .reduce((chain, service) => {
-                return chain
-                    .then(results => {
-                        if (results && results.length) {
-                            return results;
-                        }
+        for (const service of this.providers) {
 
-                        return this._serviceSearch(service, term);
-                    }, err => {
-                        logger.warn(`Search error (${ service.constructor.name }): ${ err.stack }.`);
-                        allErrors.push(err);
-                        return this._serviceSearch(service, term);
-                    })
-                    .then(results => this._verifyResults(results, term));
-            }, Promise.resolve());
-
-        return searchAttempts
-            .then(results => !results ? [] : results)
-            .catch(err => {
+            try {
+                const results = await this._serviceSearch(service, term);
+                const filtered = this._verifyResults(results, term);
+                if (filtered && filtered.length) {
+                    return filtered;
+                }
+            } catch (err) {
+                logger.warn(`Search error (${ service.constructor.name }): ${ err.stack }.`);
                 allErrors.push(err);
-                let errStr = allErrors.map(x => x.stack).join('\n\n');
-                throw new Error(`Search failed. Errors: ${ errStr }.`);
-            });
+            }
+
+        }
+
+        if (allErrors.length) {
+            let errStr = allErrors.map(x => x.stack).join('\n\n');
+            throw new Error(`Search failed. Errors: ${ errStr }.`);
+        }
+
+        return [];
     }
 
-    _serviceSearch(service, term) {
+    async _serviceSearch(service, term) {
         return Promise.race([
             service.search(term),
-            timeout(30000)
+            timeout(10000)
         ]);
     }
 
